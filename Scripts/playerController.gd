@@ -119,12 +119,18 @@ func _on_timer_max_outside_timeout() -> void:
 	velocity = direction_to_center * expel_force
 	timer_max_outside.stop()
 
+# Disparar
 func fire():
 	if Input.is_action_just_pressed("fire"):
-		var temp = bullet.instantiate()
-		left_gun.add_child(temp)
-		temp.global_position = left_gun.global_position
-		temp.rotation = rotation
+		var bullet_inst1 = bullet.instantiate()
+		get_parent().add_child(bullet_inst1)
+		bullet_inst1.global_position = left_gun.global_position
+		bullet_inst1.rotation = rotation
+		
+		var bullet_inst2 = bullet.instantiate()
+		get_parent().add_child(bullet_inst2)
+		bullet_inst2.global_position = right_gun.global_position
+		bullet_inst2.rotation = rotation
 
 func _physics_process(delta):
 	movement(delta)
