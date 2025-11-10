@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://b0exmhh0wrc71"]
+[gd_scene load_steps=3 format=3 uid="uid://b0exmhh0wrc71"]
 
 [ext_resource type="PackedScene" uid="uid://dbr0we6yg5x5p" path="res://Scenes/player.tscn" id="1_tumq0"]
+[ext_resource type="PackedScene" uid="uid://dsxvpyxrk5ju4" path="res://Scenes/meteor.tscn" id="2_k5f4k"]
 
 [node name="Level" type="Node2D"]
 
@@ -9,3 +10,6 @@
 [node name="CharacterBody2D" parent="CanvasLayer" instance=ExtResource("1_tumq0")]
 position = Vector2(968, 540)
 rotation = -1.5707964
+
+[node name="meteor" parent="." instance=ExtResource("2_k5f4k")]
+position = Vector2(475, 281)

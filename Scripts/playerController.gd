@@ -40,6 +40,10 @@ var propeller_options = {
 @onready var left_gun = $left_gun
 @onready var right_gun = $right_gun
 
+@export var fire_timer: float = 0.5
+
+var fired: bool = false
+
 
 # Rotación y movimiento de la nave con aceleración y fricción
 func movement(delta):
@@ -119,9 +123,10 @@ func _on_timer_max_outside_timeout() -> void:
 	velocity = direction_to_center * expel_force
 	timer_max_outside.stop()
 
-# Disparar
+# Disparar cada X tiempo
 func fire():
-	if Input.is_action_just_pressed("fire"):
+	if Input.is_action_pressed("fire") && !fired:
+		fired = true
 		var bullet_inst1 = bullet.instantiate()
 		get_parent().add_child(bullet_inst1)
 		bullet_inst1.global_position = left_gun.global_position
@@ -131,6 +136,9 @@ func fire():
 		get_parent().add_child(bullet_inst2)
 		bullet_inst2.global_position = right_gun.global_position
 		bullet_inst2.rotation = rotation
+		
+		await get_tree().create_timer(fire_timer).timeout
+		fired = false
 
 func _physics_process(delta):
 	movement(delta)
