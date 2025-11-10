@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://dbr0we6yg5x5p"]
+[gd_scene load_steps=5 format=3 uid="uid://dbr0we6yg5x5p"]
 
 [ext_resource type="Script" uid="uid://be6f1o5dsitif" path="res://Scripts/playerController.gd" id="1_cvnsp"]
 [ext_resource type="Texture2D" uid="uid://k54a1p0qy2iv" path="res://Sprites/spaceShips_007.png" id="1_v0iea"]
+[ext_resource type="Texture2D" uid="uid://r1hgjdjpo2d3" path="res://Sprites/spaceEffects_004.png" id="3_6t5aa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v0iea"]
 size = Vector2(170, 152)
@@ -14,5 +15,34 @@ rotation = 1.5707964
 shape = SubResource("RectangleShape2D_v0iea")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-rotation = 1.5707964
+z_index = 1
+rotation = -1.5707964
 texture = ExtResource("1_v0iea")
+
+[node name="back_left_propeller" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-62, -39)
+rotation = -1.5707964
+scale = Vector2(1.5524426, 1.5524426)
+texture = ExtResource("3_6t5aa")
+
+[node name="back_right_propeller" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-62, 39)
+rotation = -1.5707964
+scale = Vector2(1.5524426, 1.5524426)
+texture = ExtResource("3_6t5aa")
+
+[node name="front_left_propeller" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(41, -39)
+rotation = 1.5707964
+scale = Vector2(1.5524426, 1.5524426)
+texture = ExtResource("3_6t5aa")
+
+[node name="front_right_propeller" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(41, 39)
+rotation = 1.5707964
+scale = Vector2(1.5524426, 1.5524426)
+texture = ExtResource("3_6t5aa")
