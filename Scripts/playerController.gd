@@ -13,10 +13,22 @@ var rotation_direction: float = 0
 var movement_direction: float = 0
 var rotational_velocity:float  = 0
 
+# Visibilidad de los propulsores
 @onready var front_left_propeller = $front_left_propeller
 @onready var front_right_propeller = $front_right_propeller
 @onready var back_left_propeller = $back_left_propeller
 @onready var back_right_propeller = $back_right_propeller
+
+var propeller_options = {
+	"none": [false, false, false, false],
+	"up": [true, true, false, false],
+	"down": [false, false, true, true],
+	"left": [false, true, false, false],
+	"right": [true, false, false, false],
+	"down_right": [false, false, true, false],
+	"down_left": [false, false, false, true]
+}
+
 
 # Rotación y movimiento de la nave con aceleración y fricción
 func movement(delta):
@@ -39,19 +51,14 @@ func movement(delta):
 	else:
 		velocity += transform.x * movement_direction * (vel_acceleration * delta)
 		velocity = velocity.limit_length(max_speed)
-
+	
+func _input(event):
+	if event is InputEventKey:
+		if event.pressed || event.is_released():
+			propulsion()	# Solo realizar la comprobación cuando se pulsa o suelta una tecla
+	
 # Visibilidad de los propulsores según el movimiento
 func propulsion():
-	var propeller_options = {
-		"none": [false, false, false, false],
-		"up": [true, true, false, false],
-		"down": [false, false, true, true],
-		"left": [false, true, false, false],
-		"right": [true, false, false, false],
-		"down_right": [false, false, true, false],
-		"down_left": [false, false, false, true]
-	}
-	
 	var input_action = "none"
 	if Input.is_action_pressed("up") && Input.is_action_pressed("right"):
 		input_action = "right"
@@ -92,4 +99,3 @@ func _physics_process(delta):
 	movement(delta)
 	move_and_slide()
 	teleport()
-	propulsion()
