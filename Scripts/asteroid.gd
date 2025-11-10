@@ -1,4 +1,4 @@
-extends Area2D
+extends RigidBody2D
 
 var rng = RandomNumberGenerator.new()
 
@@ -16,6 +16,11 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
+# Destruir o dividir
+#func _on_area_entered(area: Area2D) -> void:
+	#queue_free()
 
-func _on_area_entered(area: Area2D) -> void:
+
+func _on_body_entered(body: Node) -> void:
+	print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
 	queue_free()

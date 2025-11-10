@@ -104,12 +104,12 @@ func teleport():
 	var screen_size = get_viewport_rect().size
 	var sprite_size = spaceship_sprite.texture.get_size() / 2
 	
-	position.x = wrapf(position.x, -sprite_size.x, screen_size.x + sprite_size.x)
-	position.y = wrapf(position.y, -sprite_size.y, screen_size.y + sprite_size.y)
+	global_position.x = wrapf(global_position.x, -sprite_size.x, screen_size.x + sprite_size.x)
+	global_position.y = wrapf(global_position.y, -sprite_size.y, screen_size.y + sprite_size.y)
 	
 	# Si la nave está fuera de los límites comienza el temprizador de campear
 	var out_of_bounds = false
-	if (position.x < 0 or position.x > screen_size.x) or (position.y < 0 or position.y > screen_size.y):
+	if (global_position.x < 0 or global_position.x > screen_size.x) or (global_position.y < 0 or global_position.y > screen_size.y):
 		out_of_bounds = true
 			
 	if out_of_bounds && timer_max_outside.is_stopped():
@@ -142,6 +142,8 @@ func fire():
 
 func _physics_process(delta):
 	movement(delta)
+	#var hola = move_and_slide()
+	#print(hola)
 	move_and_slide()
 	teleport()
 	fire()

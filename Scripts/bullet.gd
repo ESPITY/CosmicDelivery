@@ -12,12 +12,14 @@ func _ready() -> void:
 # Eliminar la instancia cuando ha salido del mapa
 func out_of_bounds():
 	var screen_size = get_viewport_rect().size
-	var sprite_size = bullet_sprite.texture.get_size() / 2
 	
 	if (position.x < 0 or position.x > screen_size.x) or (position.y < 0 or position.y > screen_size.y):
 		queue_free()		
 
 
 func _process(delta: float) -> void:
-	position += Vector2(speed * delta, 0).rotated(rotation)
+	global_position += Vector2(speed * delta, 0).rotated(rotation)
 	out_of_bounds()
+
+func _on_body_entered(body: Node2D) -> void:
+	queue_free()
