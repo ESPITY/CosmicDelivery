@@ -22,4 +22,5 @@ func _process(delta: float) -> void:
 	out_of_bounds()
 
 func _on_body_entered(body: Node2D) -> void:
+	body.explode()
 	queue_free()

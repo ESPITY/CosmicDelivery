@@ -2,6 +2,8 @@ extends RigidBody2D
 
 var rng = RandomNumberGenerator.new()
 
+@onready var animated_sprite = $AnimatedSprite2D
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# WHEIGHTED
@@ -10,17 +12,13 @@ func _ready() -> void:
 	
 	self.set_global_scale(Vector2(rand_num, rand_num))
 	#$CollisionShape2D.set_global_scale(Vector2(rand_num, rand_num))
-
+	linear_velocity = Vector2(randf_range(-100, 100), randf_range(-100, 100))
+	angular_velocity = randf_range(-1, 1)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 
-# Destruir o dividir
-#func _on_area_entered(area: Area2D) -> void:
-	#queue_free()
 
-
-func _on_body_entered(body: Node) -> void:
-	print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-	queue_free()
+func explode():
+	queue_free()	

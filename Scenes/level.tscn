@@ -11,5 +11,5 @@
 position = Vector2(968, 540)
 rotation = -1.5707964
 
-[node name="meteor" parent="." instance=ExtResource("2_k5f4k")]
-position = Vector2(475, 281)
+[node name="asteroid" parent="." instance=ExtResource("2_k5f4k")]
+position = Vector2(665, 382)
