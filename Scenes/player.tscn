@@ -1,19 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://dbr0we6yg5x5p"]
+[gd_scene load_steps=4 format=3 uid="uid://dbr0we6yg5x5p"]
 
 [ext_resource type="Script" uid="uid://be6f1o5dsitif" path="res://Scripts/playerController.gd" id="1_cvnsp"]
 [ext_resource type="Texture2D" uid="uid://k54a1p0qy2iv" path="res://Sprites/spaceShips_007.png" id="1_v0iea"]
 [ext_resource type="Texture2D" uid="uid://r1hgjdjpo2d3" path="res://Sprites/spaceEffects_004.png" id="3_6t5aa"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_v0iea"]
-size = Vector2(170, 152)
-
 [node name="player" type="CharacterBody2D"]
 collision_mask = 3
 script = ExtResource("1_cvnsp")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-rotation = 1.5707964
-shape = SubResource("RectangleShape2D_v0iea")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(42, -86, 73, -83, 75, -63, 39, -21, 39, 21, 75, 63, 73, 83, 42, 86, 20, 58, -71, 67, -76, 58, -30, 8, -30, -8, -76, -58, -71, -67, 20, -58)
 
 [node name="spaceship" type="Sprite2D" parent="."]
 z_index = 1
