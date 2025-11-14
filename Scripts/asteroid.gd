@@ -33,6 +33,8 @@ var asteroid_data = {
 	}
 }
 
+signal exploded(pos, size)
+
 
 func _ready() -> void:
 	var asteroid = asteroid_data[size]	
@@ -41,7 +43,8 @@ func _ready() -> void:
 	
 	if (size == asteroid_size.HUGE) || (size == asteroid_size.BIG):
 		suffix = randi_range(1, 4)
-	elif (size == asteroid_size.MEDIUM) || (size == asteroid_size.TINY):
+		
+	elif (size == asteroid_size.MEDIUM) || (size == asteroid_size.SMALL) || (size == asteroid_size.TINY):
 		suffix = randi_range(1, 2)
 
 	var texture_path = "res://Sprites/Asteroids/" + asteroid["prefix"] + str(suffix) + ".png"
@@ -95,4 +98,5 @@ func split():
 		#get_parent().add_child(new_asteroid)
 
 func explode():
+	emit_signal("exploded", global_position, size)
 	queue_free()
