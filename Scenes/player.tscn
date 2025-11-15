@@ -8,6 +8,7 @@
 scale = Vector2(0.8, 0.8)
 collision_mask = 3
 script = ExtResource("1_cvnsp")
+fire_timer = 0.2
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(42, -86, 73, -83, 75, -63, 39, -21, 39, 21, 75, 63, 73, 83, 42, 86, 20, 58, -71, 67, -76, 58, -30, 8, -30, -8, -76, -58, -71, -67, 20, -58)
@@ -19,6 +20,7 @@ texture = ExtResource("1_v0iea")
 
 [node name="back_left_propeller" type="Sprite2D" parent="."]
 visible = false
+modulate = Color(18.892157, 18.892157, 18.892157, 1)
 position = Vector2(-62, -39)
 rotation = -1.5707964
 scale = Vector2(1.5524426, 1.5524426)
@@ -26,6 +28,7 @@ texture = ExtResource("3_6t5aa")
 
 [node name="back_right_propeller" type="Sprite2D" parent="."]
 visible = false
+modulate = Color(18.892157, 18.892157, 18.892157, 1)
 position = Vector2(-62, 39)
 rotation = -1.5707964
 scale = Vector2(1.5524426, 1.5524426)
@@ -33,14 +36,16 @@ texture = ExtResource("3_6t5aa")
 
 [node name="front_left_propeller" type="Sprite2D" parent="."]
 visible = false
-position = Vector2(41, -39)
+modulate = Color(18.892157, 18.892157, 18.892157, 1)
+position = Vector2(49.75, -38.99999)
 rotation = 1.5707964
 scale = Vector2(1.5524426, 1.5524426)
 texture = ExtResource("3_6t5aa")
 
 [node name="front_right_propeller" type="Sprite2D" parent="."]
 visible = false
-position = Vector2(41, 39)
+modulate = Color(18.892157, 18.892157, 18.892157, 1)
+position = Vector2(49.75, 39)
 rotation = 1.5707964
 scale = Vector2(1.5524426, 1.5524426)
 texture = ExtResource("3_6t5aa")

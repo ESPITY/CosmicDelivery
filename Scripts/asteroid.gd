@@ -13,25 +13,32 @@ enum asteroid_size {HUGE, BIG, MEDIUM, SMALL, TINY}
 var asteroid_data = {
 	asteroid_size.HUGE: {
 		"speed_range": Vector2(-100, 100),
-		"prefix": "Asteroid_Huge-"
+		"prefix": "Asteroid_Huge-",
+		"hits": 10
 	},
 	asteroid_size.BIG: {
 		"speed_range": Vector2(-150, 150),
-		"prefix": "Asteroid_Big-"
+		"prefix": "Asteroid_Big-",
+		"hits": 8
 	},
 	asteroid_size.MEDIUM: {
 		"speed_range": Vector2(-200, 200),
-		"prefix": "Asteroid_Medium-"
+		"prefix": "Asteroid_Medium-",
+		"hits": 6
 	},
 	asteroid_size.SMALL: {
 		"speed_range": Vector2(-250, 250),
-		"prefix": "Asteroid_Small-"
+		"prefix": "Asteroid_Small-",
+		"hits": 4
 	},
 	asteroid_size.TINY: {
 		"speed_range": Vector2(-300, 300),
-		"prefix": "Asteroid_Tiny-"
+		"prefix": "Asteroid_Tiny-",
+		"hits": 2
 	}
 }
+
+var hits: int = 0
 
 signal exploded(pos, size)
 
@@ -48,10 +55,13 @@ func _ready() -> void:
 		suffix = randi_range(1, 2)
 
 	var texture_path = "res://Sprites/Asteroids/" + asteroid["prefix"] + str(suffix) + ".png"
-	var collision_path = "res://Resources/" + asteroid["prefix"].replace("Asteroid_", "Asteroid_CS_") + str(suffix) + ".tres"
-  
 	sprite.texture = load(texture_path)
-	collision.shape = load(collision_path)
+	
+	if (size == asteroid_size.SMALL) || (size == asteroid_size.TINY):
+		collision.set_disabled(true)
+	else:
+		var collision_path = "res://Resources/" + asteroid["prefix"].replace("Asteroid_", "Asteroid_CS_") + str(suffix) + ".tres"
+		collision.shape = load(collision_path)
 	
 	rotation = randf_range(0, 2 * PI)
 	
@@ -64,39 +74,23 @@ func teleport():
 	var sprite_size = sprite.texture.get_size() / 2
 	
 	global_position.x = wrapf(global_position.x, -sprite_size.x, screen_size.x + sprite_size.x)
-	global_position.y = wrapf(global_position.y, -sprite_size.y, screen_size.y + sprite_size.y)
+	global_position.y = wrapf(global_position.y, -sprite_size.y, screen_size.y + sprite_size.y)	
 	
-
+# Los asteroides SMALL y TINY encojen hasta desaparecer
+func shrink(delta):
+	if(size == asteroid_size.SMALL) || (size == asteroid_size.TINY):
+		if sprite.global_scale.x > 0.05 && sprite.global_scale.y > 0.05:
+			sprite.global_scale -= Vector2(0.2, 0.2) * delta
+		else:
+			queue_free()	
 	
 func _physics_process(delta):
 	teleport()
-
-func split():
-	# Generamos un número aleatorio de asteroides hijos
-	var num_children = randi_range(2, 4)  # Puede generar entre 2 y 4 asteroides
-
-	# En función del tamaño actual, generamos asteroides más pequeños
-	var new_size: asteroid_size
-	match size:
-		asteroid_size.HUGE:
-			new_size = asteroid_size.BIG
-		asteroid_size.BIG:
-			new_size = asteroid_size.MEDIUM
-		asteroid_size.MEDIUM:
-			new_size = asteroid_size.SMALL
-		asteroid_size.SMALL:
-			new_size = asteroid_size.TINY
-		asteroid_size.TINY:
-			return  # No se puede dividir más
-
-	# Crear los nuevos asteroides
-	#for i in range(num_children):
-		#var new_asteroid = self.new()
-		#new_asteroid.size = new_size
-		#new_asteroid.position = position  # Aparecen en la misma posición del asteroide original
-		#new_asteroid.linear_velocity = rng.randf_range(-100, 100) * Vector2(cos(randf_range(0, 2 * PI)), sin(randf_range(0, 2 * PI)))
-		#get_parent().add_child(new_asteroid)
+	shrink(delta)
 
 func explode():
-	emit_signal("exploded", global_position, size)
-	queue_free()
+	hits += 1
+	var asteroid = asteroid_data[size]
+	if hits == asteroid["hits"]:
+		emit_signal("exploded", global_position, size)
+		queue_free()

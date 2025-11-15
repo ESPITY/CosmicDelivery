@@ -1,4 +1,4 @@
-[gd_resource type="CircleShape2D" format=3 uid="uid://cvfwcx7mefld2"]
+[gd_resource type="CircleShape2D" load_steps=0 format=3 uid="uid://cvfwcx7mefld2"]
 
 [resource]
 radius = 21.023796

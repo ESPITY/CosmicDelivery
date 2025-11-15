@@ -1,9 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://dsxvpyxrk5ju4"]
+[gd_scene load_steps=11 format=3 uid="uid://dsxvpyxrk5ju4"]
 
 [ext_resource type="Script" uid="uid://bevymi0npmov5" path="res://Scripts/asteroid.gd" id="1_wm1ig"]
 [ext_resource type="Texture2D" uid="uid://0wm8ieqywjly" path="res://Sprites/Asteroids/Asteroid_Huge-1.png" id="2_xliy4"]
 [ext_resource type="Texture2D" uid="uid://bpboqecsuq82t" path="res://Sprites/tank_explosion2.png" id="3_f2ils"]
-[ext_resource type="Shape2D" uid="uid://3fpn60l7jjvm" path="res://Resources/Asteroid_CS_Huge-1.tres" id="3_fuwye"]
 [ext_resource type="Texture2D" uid="uid://cwl3ucxj3fvau" path="res://Sprites/tank_explosion3.png" id="4_xliy4"]
 [ext_resource type="Texture2D" uid="uid://c3gdwpkrli2dk" path="res://Sprites/tank_explosion4.png" id="5_fuwye"]
 [ext_resource type="Texture2D" uid="uid://blrlns00px705" path="res://Sprites/tank_explosion9.png" id="6_b8e0k"]
@@ -105,7 +104,6 @@ script = ExtResource("1_wm1ig")
 texture = ExtResource("2_xliy4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = ExtResource("3_fuwye")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
