@@ -106,32 +106,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="Panel2" type="Panel" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 228.0
-offset_top = 318.0
-offset_right = -1292.0
-offset_bottom = -362.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_ce3w2")
-
-[node name="Panel3" type="Panel" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 1349.0
-offset_top = 342.0
-offset_right = -171.0
-offset_bottom = -338.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_ce3w2")
-
 [node name="Button" type="Button" parent="."]
 layout_mode = 0
 offset_right = 8.0

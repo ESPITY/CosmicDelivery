@@ -87,6 +87,7 @@ func shrink(delta):
 		if sprite.global_scale.x > 0.05 && sprite.global_scale.y > 0.05:
 			sprite.global_scale -= Vector2(0.2, 0.2) * delta
 		else:
+			Globals.active_asteroids -= 1
 			queue_free()	
 	
 func _physics_process(delta):
