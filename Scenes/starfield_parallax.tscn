@@ -1,0 +1,81 @@
+[gd_scene load_steps=10 format=3 uid="uid://dsmdywkjq6waj"]
+
+[sub_resource type="Gradient" id="Gradient_6phgx"]
+colors = PackedColorArray(1, 1, 0.7137255, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_81xng"]
+gradient = SubResource("Gradient_6phgx")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6phgx"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(1, 540, 1)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+spread = 15.0
+initial_velocity_min = -35.0
+initial_velocity_max = -30.0
+gravity = Vector3(0, 0, 0)
+scale_min = 4.0
+scale_max = 5.0
+color_initial_ramp = SubResource("GradientTexture1D_81xng")
+
+[sub_resource type="Gradient" id="Gradient_81xng"]
+colors = PackedColorArray(0.3854925, 0.38549247, 0.38549247, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_wqkje"]
+gradient = SubResource("Gradient_81xng")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_81xng"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(1, 540, 1)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+spread = 10.0
+initial_velocity_min = -25.0
+initial_velocity_max = -20.0
+gravity = Vector3(0, 0, 0)
+scale_min = 2.0
+scale_max = 3.0
+color_initial_ramp = SubResource("GradientTexture1D_wqkje")
+
+[sub_resource type="Gradient" id="Gradient_0f350"]
+colors = PackedColorArray(0.1728327, 0.17283267, 0.17283267, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8c0lf"]
+gradient = SubResource("Gradient_0f350")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wqkje"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(1, 540, 1)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+spread = 5.0
+initial_velocity_min = -15.0
+initial_velocity_max = -10.0
+gravity = Vector3(0, 0, 0)
+scale_max = 2.0
+color_initial_ramp = SubResource("GradientTexture1D_8c0lf")
+
+[node name="starfield_parallax" type="Node2D"]
+position = Vector2(1980, 540)
+
+[node name="stars_parallax_1" type="GPUParticles2D" parent="."]
+z_index = -90
+amount = 35
+lifetime = 200.0
+preprocess = 140.0
+process_material = SubResource("ParticleProcessMaterial_6phgx")
+
+[node name="stars_parallax_2" type="GPUParticles2D" parent="."]
+z_index = -95
+amount = 300
+lifetime = 200.0
+preprocess = 140.0
+process_material = SubResource("ParticleProcessMaterial_81xng")
+
+[node name="stars_parallax_3" type="GPUParticles2D" parent="."]
+z_index = -100
+amount = 1000
+lifetime = 200.0
+preprocess = 200.0
+process_material = SubResource("ParticleProcessMaterial_wqkje")

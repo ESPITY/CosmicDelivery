@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://dv318nu4vf0ra"]
+[gd_scene load_steps=8 format=3 uid="uid://dv318nu4vf0ra"]
 
 [ext_resource type="Texture2D" uid="uid://bgbnlknht21on" path="res://Sprites/ui/button_square_header_small_square_screws.png" id="1_1ehe0"]
 [ext_resource type="Texture2D" uid="uid://dhe7nouxqb4jf" path="res://Sprites/ui/bar_round_large.png" id="1_28flt"]
+[ext_resource type="Script" uid="uid://b3wxjqhighq0s" path="res://Scripts/main_menu.gd" id="1_ce3w2"]
 [ext_resource type="FontFile" uid="uid://3qarcachwbyy" path="res://fonts/Kenney Future Narrow.ttf" id="2_48xlc"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ce3w2"]
@@ -13,13 +14,14 @@ default_font = ExtResource("2_48xlc")
 [sub_resource type="Theme" id="Theme_1ehe0"]
 default_font = ExtResource("2_48xlc")
 
-[node name="MainMenu" type="Control"]
+[node name="main_menu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_ce3w2")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -62,13 +64,13 @@ text = "AstroBlaze"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TextureButton" type="TextureButton" parent="Panel/VBoxContainer"]
+[node name="play_button" type="TextureButton" parent="Panel/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture_normal = ExtResource("1_28flt")
 
-[node name="Label" type="Label" parent="Panel/VBoxContainer/TextureButton"]
+[node name="Label" type="Label" parent="Panel/VBoxContainer/play_button"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -83,13 +85,13 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="TextureButton2" type="TextureButton" parent="Panel/VBoxContainer"]
+[node name="exit_button" type="TextureButton" parent="Panel/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture_normal = ExtResource("1_28flt")
 
-[node name="Label" type="Label" parent="Panel/VBoxContainer/TextureButton2"]
+[node name="Label" type="Label" parent="Panel/VBoxContainer/exit_button"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -134,3 +136,6 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_ce3w2")
 layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0
+
+[connection signal="pressed" from="Panel/VBoxContainer/play_button" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/exit_button" to="." method="_on_exit_button_pressed"]

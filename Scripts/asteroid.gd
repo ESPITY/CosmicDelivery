@@ -14,27 +14,32 @@ var asteroid_data = {
 	asteroid_size.HUGE: {
 		"speed_range": Vector2(-100, 100),
 		"prefix": "Asteroid_Huge-",
-		"hits": 10
+		"hits": 8,
+		"attack": 15
 	},
 	asteroid_size.BIG: {
 		"speed_range": Vector2(-150, 150),
 		"prefix": "Asteroid_Big-",
-		"hits": 8
+		"hits": 6,
+		"attack": 10
 	},
 	asteroid_size.MEDIUM: {
 		"speed_range": Vector2(-200, 200),
 		"prefix": "Asteroid_Medium-",
-		"hits": 6
+		"hits": 4,
+		"attack": 5
 	},
 	asteroid_size.SMALL: {
 		"speed_range": Vector2(-250, 250),
 		"prefix": "Asteroid_Small-",
-		"hits": 4
+		"hits": 0,
+		"attack": 0
 	},
 	asteroid_size.TINY: {
 		"speed_range": Vector2(-300, 300),
 		"prefix": "Asteroid_Tiny-",
-		"hits": 2
+		"hits": 0,
+		"attack": 0
 	}
 }
 
@@ -87,6 +92,10 @@ func shrink(delta):
 func _physics_process(delta):
 	teleport()
 	shrink(delta)
+	
+func get_asteroid_data():
+	return asteroid_data[size]
+
 
 func explode():
 	hits += 1

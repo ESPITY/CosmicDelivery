@@ -1,0 +1,77 @@
+[gd_scene load_steps=11 format=3 uid="uid://b0exmhh0wrc71"]
+
+[ext_resource type="Script" uid="uid://dt70ctfgbhccq" path="res://Scripts/level.gd" id="1_ldgsr"]
+[ext_resource type="PackedScene" uid="uid://p18te3mbptsf" path="res://Scenes/hud.tscn" id="2_o5yvi"]
+[ext_resource type="PackedScene" uid="uid://dbr0we6yg5x5p" path="res://Scenes/player.tscn" id="3_rku1e"]
+[ext_resource type="PackedScene" uid="uid://b4yxq42ixguqi" path="res://Scenes/asteroid_spawner.tscn" id="4_rfjv2"]
+[ext_resource type="Texture2D" uid="uid://ddpbjro4paqh5" path="res://Sprites/planets/planet09.png" id="5_1phco"]
+[ext_resource type="Texture2D" uid="uid://b82ihy1v4diwy" path="res://Sprites/planets/planet06.png" id="6_nb51f"]
+[ext_resource type="Texture2D" uid="uid://c2tulxfj0l8sw" path="res://Sprites/planets/planet08.png" id="7_nnt18"]
+[ext_resource type="Texture2D" uid="uid://b33kbc07wl0qu" path="res://Sprites/planets/planet04.png" id="8_ewbju"]
+[ext_resource type="Texture2D" uid="uid://bfk2xf4evjd8o" path="res://Sprites/planets/planet03.png" id="9_85qyi"]
+[ext_resource type="Texture2D" uid="uid://t5ywt6qdi160" path="res://Sprites/planets/planet07.png" id="10_iivbl"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_ldgsr")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="hud" parent="CanvasLayer" node_paths=PackedStringArray("player") instance=ExtResource("2_o5yvi")]
+player = NodePath("../../CharacterBody2D")
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("3_rku1e")]
+position = Vector2(968, 540)
+rotation = -1.5707964
+
+[node name="asteroid_spawner" parent="." instance=ExtResource("4_rfjv2")]
+
+[node name="level1" type="Node2D" parent="."]
+
+[node name="Planet09" type="Sprite2D" parent="level1"]
+modulate = Color(0.4506483, 0.4506483, 0.45064825, 1)
+z_index = -94
+position = Vector2(385.00006, 704.00006)
+rotation = 0.45727625
+scale = Vector2(0.3375, 0.3375)
+texture = ExtResource("5_1phco")
+
+[node name="Planet06" type="Sprite2D" parent="level1"]
+modulate = Color(0.32544068, 0.32544097, 0.32544082, 1)
+z_index = -101
+position = Vector2(632.99994, 824.00006)
+rotation = 0.6859144
+scale = Vector2(0.056250002, 0.056250002)
+texture = ExtResource("6_nb51f")
+
+[node name="level2" type="Node2D" parent="."]
+visible = false
+
+[node name="Planet08" type="Sprite2D" parent="level2"]
+modulate = Color(0.7204674, 0.7204675, 0.7204674, 1)
+z_index = -94
+position = Vector2(1576, 751.00006)
+scale = Vector2(0.33906236, 0.33906236)
+texture = ExtResource("7_nnt18")
+
+[node name="Planet04" type="Sprite2D" parent="level2"]
+modulate = Color(0.86898494, 0.8689849, 0.8689849, 1)
+z_index = -94
+position = Vector2(311, 271)
+scale = Vector2(0.18125, 0.18125)
+texture = ExtResource("8_ewbju")
+
+[node name="Planet03" type="Sprite2D" parent="level2"]
+modulate = Color(0.5211406, 0.52114064, 0.52114046, 1)
+z_index = -101
+position = Vector2(170, 185)
+scale = Vector2(0.06718748, 0.06718748)
+texture = ExtResource("9_85qyi")
+
+[node name="level3" type="Node2D" parent="."]
+visible = false
+
+[node name="Planet07" type="Sprite2D" parent="level3"]
+modulate = Color(0.6030432, 0.6779458, 0.36767253, 1)
+position = Vector2(1850, 67)
+scale = Vector2(0.27968735, 0.27968735)
+texture = ExtResource("10_iivbl")

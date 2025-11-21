@@ -44,6 +44,11 @@ var propeller_options = {
 
 var fired: bool = false
 
+# Vida
+@export var max_health: float = 100
+var health: float = max_health
+signal update_healthbar(health)
+
 
 # Rotación y movimiento de la nave con aceleración y fricción
 func movement(delta):
@@ -148,9 +153,22 @@ func _physics_process(delta):
 	teleport()
 	fire()
 
+# Detección de choque
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("asteroids"):
 		body.explode()
+		#var asteroid = body.asteroid_data[body.size]
+		#damaged(body.asteroid["attack"])
+		var asteroid = body.get_asteroid_data()
+		damaged(asteroid["attack"])
+		
 		sprite.modulate = Color("ff8473ff")
 		await get_tree().create_timer(0.1).timeout
 		sprite.modulate = Color("ffffff")
+
+# Daño
+func damaged(damage):
+	health -= damage
+	if health <= 0:
+		health = 0
+	emit_signal("update_healthbar", health)

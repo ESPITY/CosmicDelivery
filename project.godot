@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+StarfieldParallax="*res://Scenes/starfield_parallax.tscn"
 Globals="*res://Scripts/globals.gd"
 
 [display]
