@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://cbb6up2g184tt"]
+
+[ext_resource type="Script" uid="uid://bjpyrme1vg5jx" path="res://Scripts/enemy.gd" id="1_afpow"]
+[ext_resource type="Texture2D" uid="uid://d2q2qu2oapbd0" path="res://Sprites/spaceShips_003.png" id="2_afpow"]
+[ext_resource type="Texture2D" uid="uid://r1hgjdjpo2d3" path="res://Sprites/spaceEffects_004.png" id="3_0830c"]
+
+[node name="enemy" type="CharacterBody2D" groups=["enemies"]]
+scale = Vector2(0.8, 0.8)
+collision_mask = 3
+script = ExtResource("1_afpow")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(27.499998, -29.999996, 27.499998, -18.749998, 43.749996, -12.499999, 43.749996, 12.499999, 27.499998, 18.749998, 27.499998, 29.999996, -42.499996, 49.999996, -42.499996, -49.999996)
+
+[node name="spaceship" type="Sprite2D" parent="."]
+z_index = 1
+rotation = -1.5707964
+texture = ExtResource("2_afpow")
+
+[node name="propeller" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(18.892157, 18.892157, 18.892157, 1)
+position = Vector2(-47.499996, 0)
+rotation = -1.5707964
+scale = Vector2(1.5524426, 1.5524426)
+texture = ExtResource("3_0830c")
+
+[node name="gun" type="Node2D" parent="."]
+position = Vector2(30, 0)
+rotation = 1.5707964
+
+[node name="Area2D" type="Area2D" parent="."]
+scale = Vector2(0.99999994, 0.99999994)
+collision_mask = 2
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Area2D"]
+scale = Vector2(1.05, 1.05)
+build_mode = 1
+polygon = PackedVector2Array(27.499998, -29.999996, 27.499998, -18.749998, 43.749996, -12.499999, 43.749996, 12.499999, 27.499998, 18.749998, 27.499998, 29.999996, -42.499996, 49.999996, -42.499996, -49.999996)
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

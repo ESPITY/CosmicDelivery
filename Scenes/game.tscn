@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://b0exmhh0wrc71"]
+[gd_scene load_steps=12 format=3 uid="uid://b0exmhh0wrc71"]
 
 [ext_resource type="Script" uid="uid://dt70ctfgbhccq" path="res://Scripts/level.gd" id="1_ldgsr"]
 [ext_resource type="PackedScene" uid="uid://p18te3mbptsf" path="res://Scenes/hud.tscn" id="2_o5yvi"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://b33kbc07wl0qu" path="res://Sprites/planets/planet04.png" id="8_ewbju"]
 [ext_resource type="Texture2D" uid="uid://bfk2xf4evjd8o" path="res://Sprites/planets/planet03.png" id="9_85qyi"]
 [ext_resource type="Texture2D" uid="uid://t5ywt6qdi160" path="res://Sprites/planets/planet07.png" id="10_iivbl"]
+[ext_resource type="PackedScene" uid="uid://cbb6up2g184tt" path="res://Scenes/enemy.tscn" id="11_o5yvi"]
 
 [node name="game" type="Node2D"]
 script = ExtResource("1_ldgsr")
@@ -77,3 +78,6 @@ z_index = -94
 position = Vector2(1850, 67)
 scale = Vector2(0.27968735, 0.27968735)
 texture = ExtResource("10_iivbl")
+
+[node name="player" parent="." instance=ExtResource("11_o5yvi")]
+position = Vector2(563, 346)
