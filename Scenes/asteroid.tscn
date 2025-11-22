@@ -21,4 +21,7 @@ texture = ExtResource("2_xliy4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+affect_navigation_mesh = true
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -1,6 +1,6 @@
-[gd_scene load_steps=12 format=3 uid="uid://b0exmhh0wrc71"]
+[gd_scene load_steps=13 format=3 uid="uid://b0exmhh0wrc71"]
 
-[ext_resource type="Script" uid="uid://dt70ctfgbhccq" path="res://Scripts/level.gd" id="1_ldgsr"]
+[ext_resource type="Script" uid="uid://dt70ctfgbhccq" path="res://Scripts/game.gd" id="1_ldgsr"]
 [ext_resource type="PackedScene" uid="uid://p18te3mbptsf" path="res://Scenes/hud.tscn" id="2_o5yvi"]
 [ext_resource type="PackedScene" uid="uid://dbr0we6yg5x5p" path="res://Scenes/player.tscn" id="3_rku1e"]
 [ext_resource type="PackedScene" uid="uid://b4yxq42ixguqi" path="res://Scenes/asteroid_spawner.tscn" id="4_rfjv2"]
@@ -12,6 +12,8 @@
 [ext_resource type="Texture2D" uid="uid://t5ywt6qdi160" path="res://Sprites/planets/planet07.png" id="10_iivbl"]
 [ext_resource type="PackedScene" uid="uid://cbb6up2g184tt" path="res://Scenes/enemy.tscn" id="11_o5yvi"]
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_o5yvi"]
+
 [node name="game" type="Node2D"]
 script = ExtResource("1_ldgsr")
 
@@ -19,12 +21,6 @@ script = ExtResource("1_ldgsr")
 
 [node name="hud" parent="CanvasLayer" node_paths=PackedStringArray("player") instance=ExtResource("2_o5yvi")]
 player = NodePath("../../CharacterBody2D")
-
-[node name="CharacterBody2D" parent="." instance=ExtResource("3_rku1e")]
-position = Vector2(968, 540)
-rotation = -1.5707964
-
-[node name="asteroid_spawner" parent="." instance=ExtResource("4_rfjv2")]
 
 [node name="level1" type="Node2D" parent="."]
 visible = false
@@ -79,5 +75,16 @@ position = Vector2(1850, 67)
 scale = Vector2(0.27968735, 0.27968735)
 texture = ExtResource("10_iivbl")
 
-[node name="enemy" parent="." instance=ExtResource("11_o5yvi")]
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_o5yvi")
+
+[node name="asteroid_spawner" parent="NavigationRegion2D" instance=ExtResource("4_rfjv2")]
+
+[node name="enemy" parent="NavigationRegion2D" instance=ExtResource("11_o5yvi")]
 position = Vector2(563, 346)
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("3_rku1e")]
+position = Vector2(968, 540)
+rotation = -1.5707964
+
+[connection signal="bake_finished" from="NavigationRegion2D" to="." method="_on_navigation_region_2d_bake_finished"]

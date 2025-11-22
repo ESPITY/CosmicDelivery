@@ -41,6 +41,12 @@ polygon = PackedVector2Array(27.499998, -29.999996, 27.499998, -18.749998, 43.74
 [node name="timer_max_outside" type="Timer" parent="."]
 wait_time = 2.0
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 4.0
+avoidance_enabled = true
+radius = 30.0
+avoidance_priority = 0.5
+debug_enabled = true
+
 [connection signal="timeout" from="timer_max_outside" to="." method="_on_timer_max_outside_timeout"]
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]

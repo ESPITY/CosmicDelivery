@@ -159,14 +159,14 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		# Empuje según la dirección y la masa del asteroide
 		var asteroid = AsteroidConfig.ASTEROID_DATA[body.size]
 		
-		#var push_direction = (body.global_position - global_position).normalized()
-		#
-		#var push_force = asteroid["push_force"]
-		#body.apply_central_impulse(push_direction * push_force)
-		#
-		## Retroceso
-		#var player_knockback = asteroid["knockback_force"]
-		#velocity += push_direction * -1 * player_knockback
+		var push_direction = (body.global_position - global_position).normalized()
+		
+		var push_force = asteroid["push_force"]
+		body.apply_central_impulse(push_direction * push_force)
+		
+		# Retroceso
+		var player_knockback = asteroid["knockback_force"]
+		velocity += push_direction * -1 * player_knockback
 		
 		body.explode()
 		damaged(asteroid["attack"])
