@@ -157,11 +157,8 @@ func _physics_process(delta):
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("asteroids"):
 		body.explode()
-		#var asteroid = body.asteroid_data[body.size]
-		#damaged(body.asteroid["attack"])
-		var asteroid = body.get_asteroid_data()
-		damaged(asteroid["attack"])
-		
+		damaged(AsteroidConfig.ASTEROID_DATA[body.size]["attack"])
+
 		sprite.modulate = Color("ff8473ff")
 		await get_tree().create_timer(0.1).timeout
 		sprite.modulate = Color("ffffff")

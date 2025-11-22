@@ -2,77 +2,38 @@ class_name Asteroid extends RigidBody2D
 
 var rng = RandomNumberGenerator.new()
 
-@onready var animated_sprite = $AnimatedSprite2D
 @onready var sprite = $Sprite2D
 @onready var collision = $CollisionShape2D
 
-enum asteroid_size {HUGE, BIG, MEDIUM, SMALL, TINY}
-
-@export var size = asteroid_size.HUGE
-
-var asteroid_data = {
-	asteroid_size.HUGE: {
-		"speed_range": Vector2(-100, 100),
-		"prefix": "Asteroid_Huge-",
-		"hits": 8,
-		"attack": 15
-	},
-	asteroid_size.BIG: {
-		"speed_range": Vector2(-150, 150),
-		"prefix": "Asteroid_Big-",
-		"hits": 6,
-		"attack": 10
-	},
-	asteroid_size.MEDIUM: {
-		"speed_range": Vector2(-200, 200),
-		"prefix": "Asteroid_Medium-",
-		"hits": 4,
-		"attack": 5
-	},
-	asteroid_size.SMALL: {
-		"speed_range": Vector2(-250, 250),
-		"prefix": "Asteroid_Small-",
-		"hits": 0,
-		"attack": 0
-	},
-	asteroid_size.TINY: {
-		"speed_range": Vector2(-300, 300),
-		"prefix": "Asteroid_Tiny-",
-		"hits": 0,
-		"attack": 0
-	}
-}
+@export var size = AsteroidConfig.asteroid_size.HUGE
 
 var hits: int = 0
+var asteroid: Dictionary
+var texture: Texture2D
 
-signal exploded(pos, size)
+signal exploded(size, pos)
 
 
 func _ready() -> void:
-	var asteroid = asteroid_data[size]	
-	var speed = randf_range(asteroid["speed_range"].x, asteroid["speed_range"].y)
-	var suffix: int
-	
-	if (size == asteroid_size.HUGE) || (size == asteroid_size.BIG):
-		suffix = randi_range(1, 4)
-		
-	elif (size == asteroid_size.MEDIUM) || (size == asteroid_size.SMALL) || (size == asteroid_size.TINY):
-		suffix = randi_range(1, 2)
+	asteroid = AsteroidConfig.ASTEROID_DATA[size]	
 
-	var texture_path = "res://Sprites/Asteroids/" + asteroid["prefix"] + str(suffix) + ".png"
-	sprite.texture = load(texture_path)
-	
-	if (size == asteroid_size.SMALL) || (size == asteroid_size.TINY):
-		collision.set_disabled(true)
-	else:
-		var collision_path = "res://Resources/" + asteroid["prefix"].replace("Asteroid_", "Asteroid_CS_") + str(suffix) + ".tres"
+	sprite.texture = texture
+
+	if asteroid["collision"]:
+		var texture_name = sprite.texture.resource_path.get_file().replace(".png", "")
+		var collision_path = "res://Resources/Asteroid_CS_%s.tres" % texture_name.replace("Asteroid_", "")
 		collision.shape = load(collision_path)
 	
+	var speed = randf_range(asteroid["speed_range"].x, asteroid["speed_range"].y)
 	rotation = randf_range(0, 2 * PI)
 	
-	# WHEIGHTED
 	linear_velocity = Vector2(speed, speed)
 	angular_velocity = randf_range(-1, 1)
+
+# El spawner llama esta función para asignar la textura
+func set_texture(new_texture):
+	texture = new_texture
+	#sprite.texture = new_texture
 
 func teleport():
 	var screen_size = get_viewport_rect().size
@@ -83,24 +44,18 @@ func teleport():
 	
 # Los asteroides SMALL y TINY encojen hasta desaparecer
 func shrink(delta):
-	if(size == asteroid_size.SMALL) || (size == asteroid_size.TINY):
-		if sprite.global_scale.x > 0.05 && sprite.global_scale.y > 0.05:
-			sprite.global_scale -= Vector2(0.2, 0.2) * delta
-		else:
-			Globals.active_asteroids -= 1
+	if AsteroidConfig.ASTEROID_DATA[size]["shrinks"]:
+		sprite.global_scale -= Vector2(0.2, 0.2) * delta
+		if sprite.global_scale.x <= 0.05:
+			#Globals.active_asteroids -= 1
 			queue_free()	
-	
-func _physics_process(delta):
-	teleport()
-	shrink(delta)
-	
-func get_asteroid_data():
-	return asteroid_data[size]
-
 
 func explode():
 	hits += 1
-	var asteroid = asteroid_data[size]
 	if hits == asteroid["hits"]:
 		emit_signal("exploded", global_position, size)
 		queue_free()
+
+func _physics_process(delta):
+	teleport()
+	shrink(delta)

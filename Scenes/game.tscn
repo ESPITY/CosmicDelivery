@@ -72,7 +72,8 @@ texture = ExtResource("9_85qyi")
 visible = false
 
 [node name="Planet07" type="Sprite2D" parent="level3"]
-modulate = Color(0.6030432, 0.6779458, 0.36767253, 1)
+modulate = Color(0.51761866, 0.5851272, 0.29984733, 1)
+z_index = -94
 position = Vector2(1850, 67)
 scale = Vector2(0.27968735, 0.27968735)
 texture = ExtResource("10_iivbl")
