@@ -11,7 +11,12 @@ const ASTEROID_DATA = {
 		"attack": 15,
 		"num_textures": 4,
 		"collision": true,
-		"shrinks": false
+		"shrinks": false,
+		"mass": 20.0,
+		"friction": 0.0,
+		"bounce": 0.3,
+		"push_force": 1000.0,
+		"knockback_force": 120.0
 	},
 	asteroid_size.BIG: {
 		"speed_range": Vector2(-150, 150),
@@ -20,7 +25,12 @@ const ASTEROID_DATA = {
 		"attack": 10,
 		"num_textures": 4,
 		"collision": true,
-		"shrinks": false
+		"shrinks": false,
+		"mass": 12.0,
+		"friction": 0.0,
+		"bounce": 0.4,
+		"push_force": 1500.0,
+		"knockback_force": 80.0
 	},
 	asteroid_size.MEDIUM: {
 		"speed_range": Vector2(-200, 200),
@@ -29,7 +39,12 @@ const ASTEROID_DATA = {
 		"attack": 5,
 		"num_textures": 2,
 		"collision": true,
-		"shrinks": false
+		"shrinks": false,
+		"mass": 6.0,
+		"friction": 0.0,
+		"bounce": 0.5,
+		"push_force": 2000.0,
+		"knockback_force": 50.0
 	},
 	asteroid_size.SMALL: {
 		"speed_range": Vector2(-250, 250),
@@ -38,7 +53,12 @@ const ASTEROID_DATA = {
 		"attack": 0,
 		"num_textures": 2,
 		"collision": false,
-		"shrinks": true
+		"shrinks": true,
+		"mass": 2,
+		"friction": 0.0,
+		"bounce": 0.6,
+		"push_force": 4000.0,
+		"knockback_force": 20.0
 	},
 	asteroid_size.TINY: {
 		"speed_range": Vector2(-300, 300),
@@ -47,7 +67,12 @@ const ASTEROID_DATA = {
 		"attack": 0,
 		"num_textures": 2,
 		"collision": false,
-		"shrinks": true
+		"shrinks": true,
+		"mass": 0.5,
+		"friction": 0.0,
+		"bounce": 0.7,
+		"push_force": 6000.0,
+		"knockback_force": 10.0
 	}
 }
 

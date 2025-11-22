@@ -25,10 +25,15 @@ func _ready() -> void:
 		collision.shape = load(collision_path)
 	
 	var speed = randf_range(asteroid["speed_range"].x, asteroid["speed_range"].y)
+	var direction = randf_range(0, 2 * PI)
+	
+	linear_velocity = Vector2.from_angle(direction) * speed
+	angular_velocity = randf_range(-1, 1)
 	rotation = randf_range(0, 2 * PI)
 	
-	linear_velocity = Vector2(speed, speed)
-	angular_velocity = randf_range(-1, 1)
+	mass = asteroid["mass"]
+	physics_material_override.friction = asteroid["friction"]
+	physics_material_override.bounce = asteroid["bounce"]
 
 # El spawner llama esta función para asignar la textura
 func set_texture(new_texture):

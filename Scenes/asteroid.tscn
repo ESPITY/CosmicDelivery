@@ -1,11 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://dsxvpyxrk5ju4"]
+[gd_scene load_steps=4 format=3 uid="uid://dsxvpyxrk5ju4"]
 
 [ext_resource type="Script" uid="uid://bevymi0npmov5" path="res://Scripts/asteroid.gd" id="1_wm1ig"]
 [ext_resource type="Texture2D" uid="uid://0wm8ieqywjly" path="res://Sprites/Asteroids/Asteroid_Huge-1.png" id="2_xliy4"]
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_a2bka"]
+friction = 0.0
+
 [node name="asteroid" type="RigidBody2D" groups=["asteroids"]]
 collision_layer = 2
 collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_a2bka")
 gravity_scale = 0.0
 max_contacts_reported = 9
 linear_damp_mode = 1
