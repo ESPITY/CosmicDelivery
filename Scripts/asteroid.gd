@@ -7,6 +7,7 @@ var rng = RandomNumberGenerator.new()
 @onready var nav_obstacle = $NavigationObstacle2D
 
 @export var size = AsteroidConfig.asteroid_size.HUGE
+@export var max_speed: float = 400
 
 var hits: int = 0
 var asteroid: Dictionary
@@ -78,3 +79,5 @@ func explode():
 func _physics_process(delta):
 	teleport()
 	shrink(delta)
+	linear_velocity = linear_velocity.limit_length(max_speed)
+	angular_velocity = clamp(angular_velocity, -2.0, 2.0)

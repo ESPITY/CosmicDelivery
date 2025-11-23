@@ -5,35 +5,35 @@ enum asteroid_size {HUGE, BIG, MEDIUM, SMALL, TINY}
 # Datos configuración del asteroide según el tamaño
 const ASTEROID_DATA = {
 	asteroid_size.HUGE: {
-		"speed_range": Vector2(-100, 100),
+		"speed_range": Vector2(50, 100),
 		"prefix": "Asteroid_Huge-",
 		"hits": 8,
 		"attack": 15,
 		"num_textures": 4,
 		"collision": true,
 		"shrinks": false,
-		"mass": 20.0,
+		"mass": 10.0,
 		"friction": 0.0,
-		"bounce": 0.3,
-		"push_force": 1000.0,
-		"knockback_force": 120.0
+		"bounce": 0.1,
+		"push_force": 800.0,
+		"knockback_force": 100.0
 	},
 	asteroid_size.BIG: {
-		"speed_range": Vector2(-150, 150),
+		"speed_range": Vector2(75, 150),
 		"prefix": "Asteroid_Big-",
 		"hits": 6,
 		"attack": 10,
 		"num_textures": 4,
 		"collision": true,
 		"shrinks": false,
-		"mass": 12.0,
+		"mass": 8.0,
 		"friction": 0.0,
-		"bounce": 0.4,
-		"push_force": 1500.0,
+		"bounce": 0.2,
+		"push_force": 1200.0,
 		"knockback_force": 80.0
 	},
 	asteroid_size.MEDIUM: {
-		"speed_range": Vector2(-200, 200),
+		"speed_range": Vector2(100, 200),
 		"prefix": "Asteroid_Medium-",
 		"hits": 4,
 		"attack": 5,
@@ -42,36 +42,36 @@ const ASTEROID_DATA = {
 		"shrinks": false,
 		"mass": 6.0,
 		"friction": 0.0,
-		"bounce": 0.5,
-		"push_force": 2000.0,
-		"knockback_force": 50.0
+		"bounce": 0.3,
+		"push_force": 1600.0,
+		"knockback_force": 40.0
 	},
 	asteroid_size.SMALL: {
-		"speed_range": Vector2(-250, 250),
+		"speed_range": Vector2(125, 250),
 		"prefix": "Asteroid_Small-",
 		"hits": 0,
 		"attack": 0,
 		"num_textures": 2,
 		"collision": false,
 		"shrinks": true,
-		"mass": 2,
+		"mass": 4.0,
 		"friction": 0.0,
-		"bounce": 0.6,
-		"push_force": 4000.0,
+		"bounce": 0.4,
+		"push_force": 2000.0,
 		"knockback_force": 20.0
 	},
 	asteroid_size.TINY: {
-		"speed_range": Vector2(-300, 300),
+		"speed_range": Vector2(150, 300),
 		"prefix": "Asteroid_Tiny-",
 		"hits": 0,
 		"attack": 0,
 		"num_textures": 2,
 		"collision": false,
 		"shrinks": true,
-		"mass": 0.5,
+		"mass": 2.0,
 		"friction": 0.0,
-		"bounce": 0.7,
-		"push_force": 6000.0,
+		"bounce": 0.5,
+		"push_force": 2400.0,
 		"knockback_force": 10.0
 	}
 }
