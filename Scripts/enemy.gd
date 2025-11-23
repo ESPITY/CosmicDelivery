@@ -3,7 +3,7 @@ extends CharacterBody2D
 # Navigation
 @onready var nav_agent = $NavigationAgent2D
 
-@export var speed: float = 200
+@export var max_speed: float = 200
 @export var shooting_distance: float = 400
 
 var player: Node2D
@@ -35,7 +35,13 @@ var sprite_size: Vector2
 
 var fired: bool = false
 
+# Vida
+@onready var healthbar = $healthbar
 
+var max_health = Config.ENEMY_DATA["max_health"]
+var health: float = max_health
+
+signal update_healthbar(health)
 
 
 # Obtiene la referencia al jugador, el tamaño de la pantalla y de la mitad del sprite y configura el NavAgent2D
@@ -50,7 +56,11 @@ func _ready():
 	
 	var radius = max(sprite_size.x, sprite_size.y)
 	nav_agent.radius = radius
-	nav_agent.max_speed = speed
+	nav_agent.max_speed = max_speed
+	
+	# Healthbar
+	healthbar.set_healthbar(max_health)
+	update_healthbar.connect(healthbar._on_update_healthbar)
 
 # Máquina de estados
 func _physics_process(delta):
@@ -77,6 +87,8 @@ func _physics_process(delta):
 		State.EXPELLED:
 			propeller.visible = true 
 			move_and_slide()
+			
+	velocity = velocity.limit_length(max_speed)	# Velocidad máxima
 
 func _process(delta):
 	teleport()
@@ -92,7 +104,7 @@ func update_nav():
 		var next_path_position = nav_agent.get_next_path_position()
 		var direction = (next_path_position - global_position).normalized()
 		
-		nav_agent.set_velocity(speed * direction)
+		nav_agent.set_velocity(max_speed * direction)
 		
 # Calcula el camino más corto al jugador teniendo en cuenta el wrap around de los bordes
 func get_closest_target() -> Vector2:
@@ -136,8 +148,12 @@ func teleport():
 	
 	# Si está fuera de los límites comienza el temporizador de expulsión
 	var out_of_bounds = false
+	healthbar.visible = true
+	$Area2D_hits/CollisionPolygon2D2.disabled = true
 	if (global_position.x < 0 or global_position.x > screen_size.x) or (global_position.y < 0 or global_position.y > screen_size.y):
-		out_of_bounds = true
+		out_of_bounds = true	
+		healthbar.visible = false
+		$Area2D_hits/CollisionPolygon2D2.disabled = false
 			
 	if out_of_bounds && timer_max_outside.is_stopped():
 		timer_max_outside.start()
@@ -166,3 +182,41 @@ func fire():
 			
 		await get_tree().create_timer(fire_rate).timeout
 		fired = false
+
+# Detección de choque
+func _on_area_2d_hits_body_entered(body: Node2D) -> void:
+	if body.is_in_group("asteroids"):
+		var asteroid = Config.ASTEROID_DATA[body.size]
+		
+		# Retroceso del jugador
+		var push_direction = (body.global_position - global_position).normalized()
+		var player_knockback = asteroid["knockback_force"]
+		velocity += push_direction * -1 * player_knockback
+		
+		body.explode()
+		damaged(asteroid["attack"])
+		hit_effect()
+	
+	#if body.is_in_group("enemies"):
+		#damaged(Config.ENEMY_DATA["hit_object"])
+		#hit_effect()
+	
+	if body.is_in_group("player"):
+		damaged(Config.PLAYER_DATA["hit_object"])
+		hit_effect()
+
+# Efecto visual de daño
+func hit_effect():
+	sprite.modulate = Color("ff8473ff")
+	await get_tree().create_timer(0.1).timeout
+	sprite.modulate = Color("ffffff")
+
+# Daño
+func damaged(damage):
+	print(damage)
+	health -= damage
+	if health <= 0:
+		health = 0
+		Config.active_enemies -= 1
+		queue_free()
+	emit_signal("update_healthbar", health)

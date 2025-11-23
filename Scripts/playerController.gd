@@ -48,8 +48,7 @@ var sprite_size: Vector2
 var fired: bool = false
 
 # Vida
-@export var max_health: float = 100
-
+var max_health = Config.PLAYER_DATA["max_health"]
 var health: float = max_health
 
 signal update_healthbar(health)
@@ -66,6 +65,7 @@ func _physics_process(delta):
 	move_and_slide()
 	teleport()
 	fire()
+	velocity = velocity.limit_length(max_speed)	# Velocidad máxima
 	
 # Movimiento con fricción y aceleración	
 func rotate_player(delta):
@@ -94,8 +94,10 @@ func teleport():
 	
 	# Si la nave está fuera de los límites comienza el temporizador de expulsión
 	var out_of_bounds = false
+	$Area2D_hits/CollisionPolygon2D2.disabled = false
 	if (global_position.x < 0 or global_position.x > screen_size.x) or (global_position.y < 0 or global_position.y > screen_size.y):
 		out_of_bounds = true
+		$Area2D_hits/CollisionPolygon2D2.disabled = true
 			
 	if out_of_bounds && timer_max_outside.is_stopped():
 		timer_max_outside.start()
@@ -159,7 +161,7 @@ func propulsion():
 	front_right_propeller.visible = propellers[3]
 
 # Detección de choque
-func _on_area_2d_body_entered(body: Node2D) -> void:
+func _on_area_2d_hits_body_entered(body: Node2D) -> void:
 	if body.is_in_group("asteroids"):
 		var asteroid = Config.ASTEROID_DATA[body.size]
 		
@@ -177,7 +179,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		hit_effect()
 	
 	if body.is_in_group("enemies"):
-		damaged(Config.ENEMY_DATA["attack"])
+		damaged(Config.ENEMY_DATA["hit_object"])
 		hit_effect()
 		
 	
@@ -186,6 +188,10 @@ func hit_effect():
 	sprite.modulate = Color("ff8473ff")
 	await get_tree().create_timer(0.1).timeout
 	sprite.modulate = Color("ffffff")
+
+# Connect healthbar
+func connect_healthbar(healthbar):
+	update_healthbar.connect(healthbar._on_update_healthbar)
 
 # Daño
 func damaged(damage):

@@ -73,5 +73,4 @@ build_mode = 1
 polygon = PackedVector2Array(39.285717, -83.33334, 71, -80, 73, -57, 39, -21, 39, 21, 73, 57, 71, 80, 42, 86, 19, 59, -69, 66, -75, 57, -32, 8, -32, -8, -75, -57, -69, -66, 19, -59)
 
 [connection signal="timeout" from="timer_max_outside" to="." method="_on_timer_max_outside_timeout"]
-[connection signal="area_entered" from="Area2D_hits" to="." method="_on_area_2d_area_entered"]
-[connection signal="body_entered" from="Area2D_hits" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="Area2D_hits" to="." method="_on_area_2d_hits_body_entered"]

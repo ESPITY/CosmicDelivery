@@ -11,7 +11,7 @@ size = Vector2(12, 48)
 [node name="bullet" type="Area2D"]
 scale = Vector2(0.8, 0.8)
 collision_layer = 0
-collision_mask = 0
+collision_mask = 10
 script = ExtResource("1_oduel")
 player_bullet_texture = ExtResource("1_xjght")
 enemy_bullet_texture = ExtResource("3_6afsh")
@@ -31,5 +31,4 @@ texture = ExtResource("3_ycag2")
 rotation = 1.5707964
 shape = SubResource("RectangleShape2D_xjght")
 
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

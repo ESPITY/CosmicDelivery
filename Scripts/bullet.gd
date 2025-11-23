@@ -37,6 +37,9 @@ func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("asteroids"):
 		body.explode()
 	if body.is_in_group("player"):
-		body.damaged(Config.ENEMY_DATA["hit_object"])
+		body.damaged(Config.ENEMY_DATA["attack"])
+		body.hit_effect()
+	if body.is_in_group("enemies"):
+		body.damaged(Config.PLAYER_DATA["attack"])
 		body.hit_effect()
 	queue_free()

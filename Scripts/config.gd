@@ -5,27 +5,39 @@ extends Node
 var current_level: int = 1
 var active_asteroids: int = 0
 var active_enemies: int = 0
+var player_max_health: int = 100
+
+# ---------------------------------- JUGADOR ----------------------------------
+
+# Golpes (balas y choque) del JUGADOR
+const PLAYER_DATA = {
+	"attack": 10,
+	"hit_object": 5,
+	"max_health": 100
+}
 
 # ---------------------------------- ENEMIGOS ----------------------------------
+
 # Golpes (balas y choque) de los ENEMIGOS
 const ENEMY_DATA = {
 	"attack": 10,
-	"hit_object": 5
+	"hit_object": 5,
+	"max_health": 100
 }
 
 # Datos de configuración del SPAWNER ENEMIGOS según el NIVEL
 const ENEMY_SPAWNER_DATA = {
 	1: {
-		"max_enemies": 5,
+		"max_enemies": 2,
 		"spawn_interval": 2.0,
 	},
 	2: {
-		"max_enemies": 10,
-		"spawn_interval": 2.0,
+		"max_enemies": 4,
+		"spawn_interval": 1.5,
 	},
 	3: {
-		"max_enemies": 15,
-		"spawn_interval": 0.5,
+		"max_enemies": 6,
+		"spawn_interval": 1.0,
 	}
 }
 

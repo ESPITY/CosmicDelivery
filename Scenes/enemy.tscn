@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://cbb6up2g184tt"]
+[gd_scene load_steps=5 format=3 uid="uid://cbb6up2g184tt"]
 
 [ext_resource type="Script" uid="uid://bjpyrme1vg5jx" path="res://Scripts/enemy.gd" id="1_afpow"]
+[ext_resource type="PackedScene" uid="uid://b6483cyd0gayi" path="res://Scenes/ui_scenes/healthbar.tscn" id="2_287tu"]
 [ext_resource type="Texture2D" uid="uid://brpbo800d2dl2" path="res://Sprites/spaceships/enemy_spaceship.png" id="2_afpow"]
 [ext_resource type="Texture2D" uid="uid://db3nuvukja5no" path="res://Sprites/spaceships/spaceship_trail.png" id="3_afpow"]
 
@@ -9,11 +10,20 @@ scale = Vector2(0.8, 0.8)
 collision_layer = 4
 collision_mask = 23
 script = ExtResource("1_afpow")
+fire_rate = 0.8
+
+[node name="healthbar" parent="." instance=ExtResource("2_287tu")]
+offset_left = -38.75
+offset_top = -80.0
+offset_right = 61.25
+offset_bottom = -60.0
+rotation = 0.2811534
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_desired_distance = 4.0
 avoidance_enabled = true
 radius = 30.0
+avoidance_layers = 2
 avoidance_priority = 0.5
 
 [node name="spaceship_sprite" type="Sprite2D" parent="."]
@@ -40,7 +50,7 @@ wait_time = 2.0
 
 [node name="Area2D_hits" type="Area2D" parent="."]
 scale = Vector2(0.99999994, 0.99999994)
-collision_mask = 2
+collision_mask = 23
 
 [node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Area2D_hits"]
 scale = Vector2(1.05, 1.05)
@@ -49,3 +59,4 @@ polygon = PackedVector2Array(27.499998, -29.999996, 43.749996, -12.499999, 43.74
 
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
 [connection signal="timeout" from="timer_max_outside" to="." method="_on_timer_max_outside_timeout"]
+[connection signal="body_entered" from="Area2D_hits" to="." method="_on_area_2d_hits_body_entered"]

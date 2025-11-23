@@ -1,31 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://p18te3mbptsf"]
+[gd_scene load_steps=4 format=3 uid="uid://p18te3mbptsf"]
 
 [ext_resource type="FontFile" uid="uid://3qarcachwbyy" path="res://fonts/Kenney Future Narrow.ttf" id="1_e0onf"]
 [ext_resource type="Script" uid="uid://7g5g8c8wr2ox" path="res://Scripts/ui_scripts/hud.gd" id="1_fccik"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e0onf"]
-bg_color = Color(0.93333334, 0.15294118, 0.2784314, 1)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0.8039216, 0.043137256, 0.16470589, 1)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fccik"]
-bg_color = Color(0.08627451, 0.73333335, 0.46666667, 1)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0.007843138, 0.5764706, 0.34117648, 1)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
+[ext_resource type="PackedScene" uid="uid://b6483cyd0gayi" path="res://Scenes/ui_scenes/healthbar.tscn" id="3_mq7hv"]
 
 [node name="hud" type="Control"]
 layout_mode = 3
@@ -69,15 +46,9 @@ text = "9999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="healthbar" type="ProgressBar" parent="MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(400, 0)
+[node name="healthbar" parent="MarginContainer/HBoxContainer" instance=ExtResource("3_mq7hv")]
+custom_minimum_size = Vector2(400, 20)
 layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 1
-theme_override_styles/background = SubResource("StyleBoxFlat_e0onf")
-theme_override_styles/fill = SubResource("StyleBoxFlat_fccik")
-value = 100.0
-show_percentage = false
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2

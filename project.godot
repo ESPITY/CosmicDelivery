@@ -76,6 +76,8 @@ reset={
 2d_physics/layer_3="enemies"
 2d_physics/layer_4="enemy_bullets"
 2d_physics/layer_5="asteroids"
+avoidance/layer_1="asteroids"
+avoidance/layer_2="enemies"
 
 [rendering]
 

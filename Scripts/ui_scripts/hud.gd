@@ -2,20 +2,14 @@ extends Control
 
 @onready var healthbar = $MarginContainer/HBoxContainer/healthbar
 
-@export var player: CharacterBody2D
 
-
-# Called when the node enters the scene tree for the first time.
+# Obtiene el jugador y conectarlo a la healthbar signándole la vida máxima
 func _ready() -> void:
-	player.connect("update_healthbar", _on_update_healthbar)
-	pass # Replace with function body.a
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-
-func _on_update_healthbar(health):
-	healthbar.value = health
-	pass
+	var player: CharacterBody2D
+	var nodes = get_tree().get_nodes_in_group("player")
+	for node in nodes:
+		if node is CharacterBody2D:
+			player = node
+			
+	healthbar.set_healthbar(player.max_health)
+	player.connect_healthbar(healthbar)
