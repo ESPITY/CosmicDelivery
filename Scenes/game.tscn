@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://b33kbc07wl0qu" path="res://Sprites/planets/planet4.png" id="8_ewbju"]
 [ext_resource type="Texture2D" uid="uid://bfk2xf4evjd8o" path="res://Sprites/planets/planet5.png" id="9_85qyi"]
 [ext_resource type="Texture2D" uid="uid://t5ywt6qdi160" path="res://Sprites/planets/planet6.png" id="10_iivbl"]
-[ext_resource type="PackedScene" uid="uid://cbb6up2g184tt" path="res://Scenes/enemy.tscn" id="11_o5yvi"]
+[ext_resource type="PackedScene" uid="uid://rbqptld2emug" path="res://Scenes/enemy_spawner.tscn" id="10_o5yvi"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_o5yvi"]
 
@@ -82,8 +82,7 @@ navigation_polygon = SubResource("NavigationPolygon_o5yvi")
 
 [node name="asteroid_spawner" parent="NavigationRegion2D" instance=ExtResource("4_rfjv2")]
 
-[node name="enemy" parent="NavigationRegion2D" instance=ExtResource("11_o5yvi")]
-position = Vector2(563, 346)
+[node name="enemy_spawner" parent="NavigationRegion2D" instance=ExtResource("10_o5yvi")]
 
 [node name="player" parent="NavigationRegion2D" instance=ExtResource("3_rku1e")]
 position = Vector2(960, 540)

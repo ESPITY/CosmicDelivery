@@ -1,9 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://rbqptld2emug"]
+[gd_scene load_steps=4 format=3 uid="uid://rbqptld2emug"]
 
-[ext_resource type="Script" uid="uid://ba3mlptvg73p1" path="res://Scripts/enemies_spawner.gd" id="1_4l55s"]
+[ext_resource type="Script" uid="uid://ba3mlptvg73p1" path="res://Scripts/enemy_spawner.gd" id="1_4l55s"]
+[ext_resource type="PackedScene" uid="uid://cbb6up2g184tt" path="res://Scenes/enemy.tscn" id="2_cdqhx"]
+[ext_resource type="Texture2D" uid="uid://brpbo800d2dl2" path="res://Sprites/spaceships/enemy_spaceship.png" id="3_tdwud"]
 
 [node name="enemy_spawner" type="Node2D"]
 script = ExtResource("1_4l55s")
+enemy = ExtResource("2_cdqhx")
+texture = ExtResource("3_tdwud")
 
 [node name="spawn_timer" type="Timer" parent="."]
 wait_time = 2.0

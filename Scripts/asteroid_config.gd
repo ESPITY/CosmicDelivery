@@ -2,7 +2,7 @@ class_name AsteroidConfig extends Node
 
 enum asteroid_size {HUGE, BIG, MEDIUM, SMALL, TINY}
 
-# Datos configuración del asteroide según el tamaño
+# Datos de configuración del asteroide según el tamaño
 const ASTEROID_DATA = {
 	asteroid_size.HUGE: {
 		"speed_range": Vector2(50, 100),
@@ -76,7 +76,7 @@ const ASTEROID_DATA = {
 	}
 }
 
-# Datos configuración del spawner según el nivel
+# Datos de configuración del spawner según el nivel
 const SPAWNER_DATA = {
 	1: {
 		"max_asteroids": 5,
@@ -96,6 +96,7 @@ const SPAWNER_DATA = {
 	}
 }
 
+# Patrones de tamaños de divisón del asteroide
 const SPLIT_PATTERNS = {
 	asteroid_size.HUGE: {
 		asteroid_size.BIG: Vector2i (2, 3),

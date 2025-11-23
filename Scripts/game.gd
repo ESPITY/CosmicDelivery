@@ -7,6 +7,7 @@ var screen_size: Vector2
 
 func _ready() -> void:
 	Globals.active_asteroids = 0
+	Globals.active_enemies = 0
 	
 	match Globals.current_level:
 		1: $level_planets/level1_planets.visible = true
