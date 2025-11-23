@@ -1,14 +1,20 @@
 extends Node2D
 
 @onready var nav_region = $NavigationRegion2D
+@onready var player = $NavigationRegion2D/player
+
+var screen_size: Vector2
 
 func _ready() -> void:
 	Globals.active_asteroids = 0
 	
 	match Globals.current_level:
-		1: $level1_planets.visible = true
-		2: $level2_planets.visible = true
-		3: $level3_planets.visible = true
+		1: $level_planets/level1_planets.visible = true
+		2: $level_planets/level2_planets.visible = true
+		3: $level_planets/level3_planets.visible = true
+		
+	screen_size = get_viewport_rect().size
+	player.global_position = screen_size / 2
 	
 	set_nav_region()
 
@@ -16,9 +22,7 @@ func _ready() -> void:
 func set_nav_region():
 	var navigation_polygon = NavigationPolygon.new()
 	var outline = PackedVector2Array()
-	
 	var margin = 100
-	var screen_size = get_viewport_rect().size
 	
 	outline.append(Vector2(-margin, -margin))
 	outline.append(Vector2(screen_size.x + margin, -margin))

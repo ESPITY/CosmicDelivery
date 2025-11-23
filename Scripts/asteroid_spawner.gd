@@ -5,11 +5,11 @@ extends Node2D
 @onready var spawn_timer = $spawn_timer
 
 var rng = RandomNumberGenerator.new()
-
 var spawner: Dictionary
 var available_sizes = [AsteroidConfig.asteroid_size.MEDIUM, AsteroidConfig.asteroid_size.BIG, AsteroidConfig.asteroid_size.HUGE]
 
 
+# Ajusta el tiempo de spawneo según el nivel
 func _ready() -> void:
 	spawner = AsteroidConfig.SPAWNER_DATA[Globals.current_level]
 	spawn_timer.wait_time = spawner["spawn_interval"]
@@ -18,27 +18,29 @@ func _ready() -> void:
 func rand_size():
 	var weights = PackedFloat32Array(spawner["size_rand_weights"])
 	return available_sizes[rng.rand_weighted(weights)]
-	
+
+# Asignar una textura aleatoria según el tamaño del nuevo asteroide	
 func rand_texture(size):
-	# Asignar una textura aleatoria según el tamaño del nuevo asteroide
 	var num_textures = AsteroidConfig.ASTEROID_DATA[size]["num_textures"]
 	var suffix = randi_range(1, num_textures)
 
 	var texture_path = "res://Sprites/asteroids_sprites/" + AsteroidConfig.ASTEROID_DATA[size]["prefix"] + str(suffix) + ".png"
 	
 	return load(texture_path)
-	
+
+# Calcula una posición aleatoria fuera de pantalla
 func rand_position(texture):
 	var screen_size = get_viewport_rect().size
 	var texture_size = texture.get_size() / 2
 	
-	var side = randi_range(0, 3)  # 0: izquierda, 1: derecha, 2: arriba, 3: abajo
+	var side = randi_range(0, 3)  # 0: izquierda | 1: derecha | 2: arriba | 3: abajo
 	match side:
 		0: return Vector2(-texture_size.x, randi_range(0, screen_size.y))
 		1: return Vector2(screen_size.x + texture_size.x, randi_range(0, screen_size.y))
 		2: return Vector2(randi_range(0, screen_size.x), -texture_size.y)
 		3: return Vector2(randi_range(0, screen_size.x), screen_size.y + texture_size.y)
-	
+
+# Cuando pasa el tiempo de spawneo se crea un asteroide si no se ha alcanzado el maximo (tamaño aleatorio)	
 func _on_spawn_timer_timeout() -> void:
 	if Globals.active_asteroids < spawner["max_asteroids"]:
 		var asteroid_size = rand_size()
@@ -66,7 +68,7 @@ func spawn_asteroid(size, pos: Vector2 = Vector2.ZERO):
 	
 	call_deferred("add_child", asteroid_inst)
 
-# Cuando un asteroide explota se divide
+# Cuando un asteroide explota se divide según unos patrones (tamaños)
 func _on_asteroid_exploded(pos, original_size):
 	Globals.active_asteroids -= 1
 	

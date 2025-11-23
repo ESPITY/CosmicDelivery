@@ -1,27 +1,45 @@
 extends CharacterBody2D
 
+# Navigation
+@onready var nav_agent = $NavigationAgent2D
+
 @export var speed: float = 200
 @export var shooting_distance: float = 400
-@export var fire_rate: float = 0.5
-
-@onready var bullet = preload("res://Scenes/bullet.tscn")
-@onready var gun = $gun
-@onready var propeller = $propeller
-@onready var sprite = $spaceship
-@onready var timer_max_outside = $timer_max_outside
-@export var expel_force: float = 200
-@export var expel_state_time: float = 1.5
-@onready var nav_agent = $NavigationAgent2D
-var fired: bool = false
-enum State { APPROACHING, SHOOTING, EXPELLED }
-var current_state: State = State.APPROACHING
 
 var player: Node2D
+
+# State machine
+@export var expel_state_time: float = 1.5
+
+enum State { APPROACHING, SHOOTING, EXPELLED }
+
+var current_state: State = State.APPROACHING
+
+# Visibilidad propeller
+@onready var propeller = $propeller
+
+# Wrap around
+@onready var sprite = $spaceship_sprite
+@onready var timer_max_outside = $timer_max_outside
+
+@export var expel_force: float = 200
+
 var screen_size: Vector2
 var sprite_size: Vector2
 
+# Disparar
+@onready var bullet = preload("res://Scenes/bullet.tscn")
+@onready var gun = $gun
+
+@export var fire_rate: float = 0.5
+
+var fired: bool = false
+
+
+# Obtiene el tamaño de la pantalla y de la mitad del sprite, referencia al jugador y configura el NavAgent2D
 func _ready():
 	player = get_tree().get_first_node_in_group("player")
+	
 	screen_size = get_viewport_rect().size
 	sprite_size = sprite.texture.get_size() / 2
 	
@@ -29,6 +47,7 @@ func _ready():
 	nav_agent.radius = radius
 	nav_agent.max_speed = speed
 
+# Máquina de estados
 func _physics_process(delta):
 	var distance = global_position.distance_to(player.global_position)
 	
@@ -54,8 +73,8 @@ func _physics_process(delta):
 func _process(delta):
 	teleport()
 	
+# Navegacion y cálculo del path
 func update_nav():
-	# Calcular objetivo considerando teletransporte
 	var target_pos = get_closest_target()
 	nav_agent.target_position = target_pos
 	
@@ -65,31 +84,13 @@ func update_nav():
 		var next_path_position = nav_agent.get_next_path_position()
 		var direction = (next_path_position - global_position).normalized()
 		
-		# NavigationAgent maneja avoidance automáticamente
-		nav_agent.set_velocity(speed * direction)	
-	
-func rotate_towards(target_pos: Vector2, delta: float):
-	var direction = (target_pos - global_position).normalized()
-	rotation = lerp_angle(rotation, direction.angle(), 8 * delta)
-
-# Disparar cada X tiempo
-func fire():
-	if !fired:
-		fired = true
-		var bullet_inst = bullet.instantiate()
-		get_parent().add_child(bullet_inst)
-		bullet_inst.global_position = gun.global_position
-		bullet_inst.rotation = rotation
-			
-		await get_tree().create_timer(fire_rate).timeout
-		fired = false
-
-# Calcula el camino más corto al jugador teniendo en cuenta los bordes
+		nav_agent.set_velocity(speed * direction)
+		
+# Calcula el camino más corto al jugador teniendo en cuenta el wrap around de los bordes
 func get_closest_target() -> Vector2:
 	var player_pos = player.global_position
 	var direct_distance = global_position.distance_to(player_pos)
 	
-	# Buscar camino más corto considerando bordes
 	var alternatives = [
 		Vector2(player_pos.x - screen_size.x, player_pos.y),
 		Vector2(player_pos.x + screen_size.x, player_pos.y),
@@ -107,13 +108,25 @@ func get_closest_target() -> Vector2:
 			closest_target = alt
 	
 	return closest_target
+		
+# El NavigationAgent2D calcula la velocidad teniendo en uenta el avoidance
+func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
+	if current_state == State.APPROACHING:
+		velocity = safe_velocity
+		if safe_velocity.length() > 0.1:
+			rotation = safe_velocity.angle()
+		move_and_slide()
+	
+func rotate_towards(target_pos: Vector2, delta: float):
+	var direction = (target_pos - global_position).normalized()
+	rotation = lerp_angle(rotation, direction.angle(), 8 * delta)
 	
 # Wrap around (teletransporte en los bordes y expulsión)
 func teleport():
 	global_position.x = wrapf(global_position.x, -sprite_size.x, screen_size.x + sprite_size.x)
 	global_position.y = wrapf(global_position.y, -sprite_size.y, screen_size.y + sprite_size.y)
 	
-	# Si la nave está fuera de los límites comienza el temporizador de campear
+	# Si está fuera de los límites comienza el temporizador de expulsión
 	var out_of_bounds = false
 	if (global_position.x < 0 or global_position.x > screen_size.x) or (global_position.y < 0 or global_position.y > screen_size.y):
 		out_of_bounds = true
@@ -123,9 +136,9 @@ func teleport():
 	elif !out_of_bounds && !timer_max_outside.is_stopped():
 		timer_max_outside.stop()
 
-# Cuando el jugador lleva demsiado tiempo fuera del mapa se le expulsa hacia el centro
+# Cuando lleva demsiado tiempo fuera del mapa se le expulsa hacia el centro
 func _on_timer_max_outside_timeout() -> void:
-	current_state = State.EXPELLED
+	current_state = State.EXPELLED	# Cambia de estado si no se sobreescribiría la velocidad modificada
 	
 	var direction_to_center = (get_viewport_rect().size / 2 - global_position).normalized()
 	velocity = direction_to_center * expel_force
@@ -134,10 +147,14 @@ func _on_timer_max_outside_timeout() -> void:
 	await get_tree().create_timer(expel_state_time).timeout
 	current_state = State.APPROACHING
 
-
-func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
-	if current_state == State.APPROACHING:
-		velocity = safe_velocity
-		if safe_velocity.length() > 0.1:
-			rotation = safe_velocity.angle()
-		move_and_slide()
+# Disparar cada X tiempo
+func fire():
+	if !fired:
+		fired = true
+		var bullet_inst = bullet.instantiate()
+		get_parent().add_child(bullet_inst)
+		bullet_inst.global_position = gun.global_position
+		bullet_inst.rotation = rotation
+			
+		await get_tree().create_timer(fire_rate).timeout
+		fired = false

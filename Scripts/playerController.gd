@@ -35,12 +35,15 @@ var propeller_options = {
 
 @export var expel_force: float = 200
 
+var screen_size: Vector2
+var sprite_size: Vector2
+
 # Disparar
 @onready var bullet = preload("res://Scenes/bullet.tscn")
 @onready var left_gun = $left_gun
 @onready var right_gun = $right_gun
 
-@export var fire_timer: float = 0.5
+@export var fire_rate: float = 0.5
 
 var fired: bool = false
 
@@ -50,6 +53,12 @@ var fired: bool = false
 var health: float = max_health
 
 signal update_healthbar(health)
+
+
+# Obtiene el tamaño de la pantalla y de la mitad del sprite (wrap around)
+func _ready():
+	screen_size = get_viewport_rect().size
+	sprite_size = sprite.texture.get_size() / 2
 
 func _physics_process(delta):
 	rotate_player(delta)
@@ -78,15 +87,12 @@ func move_player(delta):
 		velocity += transform.x * movement_direction * (vel_acceleration * delta)
 		velocity = velocity.limit_length(max_speed)
 	
-# Wrap around (teletransporte en los bordes y expulsión al campear)
+# Wrap around (teletransporte en los bordes y expulsión)
 func teleport():
-	var screen_size = get_viewport_rect().size
-	var sprite_size = sprite.texture.get_size() / 2
-	
 	global_position.x = wrapf(global_position.x, -sprite_size.x, screen_size.x + sprite_size.x)
 	global_position.y = wrapf(global_position.y, -sprite_size.y, screen_size.y + sprite_size.y)
 	
-	# Si la nave está fuera de los límites comienza el temporizador de campear
+	# Si la nave está fuera de los límites comienza el temporizador de expulsión
 	var out_of_bounds = false
 	if (global_position.x < 0 or global_position.x > screen_size.x) or (global_position.y < 0 or global_position.y > screen_size.y):
 		out_of_bounds = true
@@ -116,7 +122,7 @@ func fire():
 		bullet_inst2.global_position = right_gun.global_position
 		bullet_inst2.rotation = rotation
 		
-		await get_tree().create_timer(fire_timer).timeout
+		await get_tree().create_timer(fire_rate).timeout
 		fired = false
 		
 func _input(event):

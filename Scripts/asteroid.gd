@@ -1,21 +1,23 @@
 class_name Asteroid extends RigidBody2D
 
-var rng = RandomNumberGenerator.new()
-
-@onready var sprite = $Sprite2D
-@onready var collision = $CollisionShape2D
-@onready var nav_obstacle = $NavigationObstacle2D
 
 @export var size = AsteroidConfig.asteroid_size.HUGE
 @export var max_speed: float = 400
+@export var expel_force: float = 200
 
-var hits: int = 0
+@onready var sprite = $asteroid_sprite
+@onready var collision = $asteroid_collision
+@onready var nav_obstacle = $NavigationObstacle2D
+@onready var timer_max_outside = $timer_max_outside
+
+var rng = RandomNumberGenerator.new()
+var hits: int = 0	# Nº de golpes que lleva (romperse/dividirse)
 var asteroid: Dictionary
 var texture: Texture2D
 var screen_size: Vector2
 var sprite_size: Vector2
 
-signal exploded(size, pos)
+signal exploded(size, pos)	# Cuando explota se lo indica al spawner (dividirse)
 
 
 func _ready() -> void:
@@ -42,11 +44,16 @@ func _ready() -> void:
 	physics_material_override.bounce = asteroid["bounce"]
 	
 	set_nav_obstacle()
+	
+func _physics_process(delta):
+	teleport()
+	shrink(delta)
+	linear_velocity = linear_velocity.limit_length(max_speed)
+	angular_velocity = clamp(angular_velocity, -2.0, 2.0)
 
-# El spawner llama esta función para asignar la textura
+# El spawner llama a esta función para asignar la textura
 func set_texture(new_texture):
 	texture = new_texture
-
 	
 func set_nav_obstacle():
 	if  asteroid["collision"]:
@@ -57,27 +64,38 @@ func set_nav_obstacle():
 	else:
 		nav_obstacle.avoidance_enabled = false
 		nav_obstacle.affect_navigation_mesh = false
-
+		
+# Wrap around (teletransporte en los bordes y expulsión)
 func teleport():	
 	global_position.x = wrapf(global_position.x, -sprite_size.x, screen_size.x + sprite_size.x)
 	global_position.y = wrapf(global_position.y, -sprite_size.y, screen_size.y + sprite_size.y)	
+	
+	# Si está fuera de los límites comienza el temporizador de expulsión
+	var out_of_bounds = false
+	if (global_position.x < 0 or global_position.x > screen_size.x) or (global_position.y < 0 or global_position.y > screen_size.y):
+		out_of_bounds = true
+			
+	if out_of_bounds && timer_max_outside.is_stopped():
+		timer_max_outside.start()
+	elif !out_of_bounds && !timer_max_outside.is_stopped():
+		timer_max_outside.stop()
+
+# Cuando lleva demasiado tiempo fuera del mapa se le expulsa hacia el centro	
+func _on_timer_max_outside_timeout() -> void:
+	var direction_to_center = (get_viewport_rect().size / 2 - global_position).normalized()
+	linear_velocity = direction_to_center * expel_force
+	timer_max_outside.stop()
 	
 # Los asteroides SMALL y TINY encojen hasta desaparecer
 func shrink(delta):
 	if asteroid["shrinks"]:
 		sprite.global_scale -= Vector2(0.2, 0.2) * delta
 		if sprite.global_scale.x <= 0.05:
-			#Globals.active_asteroids -= 1
 			queue_free()	
 
+# Cuando ha recibido un golpe se divide si ha alcanzado un número de hits
 func explode():
 	hits += 1
 	if hits == asteroid["hits"]:
 		emit_signal("exploded", global_position, size)
 		queue_free()
-
-func _physics_process(delta):
-	teleport()
-	shrink(delta)
-	linear_velocity = linear_velocity.limit_length(max_speed)
-	angular_velocity = clamp(angular_velocity, -2.0, 2.0)

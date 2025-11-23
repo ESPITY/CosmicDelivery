@@ -9,10 +9,13 @@ scale = Vector2(0.8, 0.8)
 collision_mask = 3
 script = ExtResource("1_afpow")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(27.499998, -29.999996, 27.499998, -18.749998, 43.749996, -12.499999, 43.749996, 12.499999, 27.499998, 18.749998, 27.499998, 29.999996, -42.499996, 49.999996, -42.499996, -49.999996)
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 4.0
+avoidance_enabled = true
+radius = 30.0
+avoidance_priority = 0.5
 
-[node name="spaceship" type="Sprite2D" parent="."]
+[node name="spaceship_sprite" type="Sprite2D" parent="."]
 z_index = 1
 rotation = -1.5707964
 texture = ExtResource("2_afpow")
@@ -24,27 +27,25 @@ rotation = -1.5707964
 scale = Vector2(1.5524426, 1.5524426)
 texture = ExtResource("3_afpow")
 
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+scale = Vector2(0.99999976, 0.99999976)
+polygon = PackedVector2Array(27.499998, -29.999996, 27.499998, -18.749998, 43.749996, -12.499999, 43.749996, 12.499999, 27.499998, 18.749998, 27.499998, 29.999996, -42.499996, 49.999996, -42.499996, -49.999996)
+
 [node name="gun" type="Node2D" parent="."]
 position = Vector2(30, 0)
 rotation = 1.5707964
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="timer_max_outside" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="Area2D_hits" type="Area2D" parent="."]
 scale = Vector2(0.99999994, 0.99999994)
 collision_mask = 2
 
-[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Area2D"]
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Area2D_hits"]
 scale = Vector2(1.05, 1.05)
 build_mode = 1
 polygon = PackedVector2Array(27.499998, -29.999996, 27.499998, -18.749998, 43.749996, -12.499999, 43.749996, 12.499999, 27.499998, 18.749998, 27.499998, 29.999996, -42.499996, 49.999996, -42.499996, -49.999996)
 
-[node name="timer_max_outside" type="Timer" parent="."]
-wait_time = 2.0
-
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-path_desired_distance = 4.0
-avoidance_enabled = true
-radius = 30.0
-avoidance_priority = 0.5
-
-[connection signal="timeout" from="timer_max_outside" to="." method="_on_timer_max_outside_timeout"]
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
+[connection signal="timeout" from="timer_max_outside" to="." method="_on_timer_max_outside_timeout"]

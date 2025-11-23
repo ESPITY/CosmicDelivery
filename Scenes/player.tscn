@@ -8,10 +8,6 @@
 scale = Vector2(0.8, 0.8)
 collision_mask = 2
 script = ExtResource("1_cvnsp")
-fire_timer = 0.2
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(42, -86, 73, -83, 75, -63, 39, -21, 39, 21, 75, 63, 73, 83, 42, 86, 20, 58, -71, 67, -76, 58, -30, 8, -30, -8, -76, -58, -71, -67, 20, -58)
 
 [node name="spaceship_sprite" type="Sprite2D" parent="."]
 z_index = 1
@@ -50,26 +46,32 @@ rotation = 1.5707964
 scale = Vector2(1.5524426, 1.5524426)
 texture = ExtResource("3_6t5aa")
 
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+scale = Vector2(0.99999994, 0.99999994)
+polygon = PackedVector2Array(42, -86, 73, -83, 75, -63, 39, -21, 39, 21, 75, 63, 73, 83, 42, 86, 20, 58, -71, 67, -76, 58, -30, 8, -30, -8, -76, -58, -71, -67, 20, -58)
+
+[node name="left_gun" type="Node2D" parent="."]
+position = Vector2(25.999998, -27.999996)
+rotation = 1.5707964
+scale = Vector2(0.99999994, 0.99999994)
+
+[node name="right_gun" type="Node2D" parent="."]
+position = Vector2(25.999998, 27.999996)
+rotation = 1.5707964
+scale = Vector2(0.99999994, 0.99999994)
+
 [node name="timer_max_outside" type="Timer" parent="."]
 wait_time = 3.0
 
-[node name="left_gun" type="Node2D" parent="."]
-position = Vector2(26, -28)
-rotation = 1.5707964
-
-[node name="right_gun" type="Node2D" parent="."]
-position = Vector2(26, 28)
-rotation = 1.5707964
-
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D_hits" type="Area2D" parent="."]
 scale = Vector2(0.99999994, 0.99999994)
 collision_mask = 2
 
-[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Area2D"]
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Area2D_hits"]
 scale = Vector2(1.05, 1.05)
 build_mode = 1
 polygon = PackedVector2Array(39.285717, -83.33334, 71, -80, 73, -57, 39, -21, 39, 21, 73, 57, 71, 80, 42, 86, 19, 59, -69, 66, -75, 57, -32, 8, -32, -8, -75, -57, -69, -66, 19, -59)
 
 [connection signal="timeout" from="timer_max_outside" to="." method="_on_timer_max_outside_timeout"]
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="area_entered" from="Area2D_hits" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="Area2D_hits" to="." method="_on_area_2d_body_entered"]

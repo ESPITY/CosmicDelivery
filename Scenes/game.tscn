@@ -22,10 +22,12 @@ script = ExtResource("1_ldgsr")
 [node name="hud" parent="CanvasLayer" node_paths=PackedStringArray("player") instance=ExtResource("2_o5yvi")]
 player = NodePath("../../NavigationRegion2D/player")
 
-[node name="level1_planets" type="Node2D" parent="."]
+[node name="level_planets" type="Node2D" parent="."]
+
+[node name="level1_planets" type="Node2D" parent="level_planets"]
 visible = false
 
-[node name="planet1" type="Sprite2D" parent="level1_planets"]
+[node name="planet1" type="Sprite2D" parent="level_planets/level1_planets"]
 modulate = Color(0.4506483, 0.4506483, 0.45064825, 1)
 z_index = -94
 position = Vector2(385.00006, 704.00006)
@@ -33,7 +35,7 @@ rotation = 0.45727625
 scale = Vector2(0.3375, 0.3375)
 texture = ExtResource("5_1phco")
 
-[node name="planet2" type="Sprite2D" parent="level1_planets"]
+[node name="planet2" type="Sprite2D" parent="level_planets/level1_planets"]
 modulate = Color(0.32544068, 0.32544097, 0.32544082, 1)
 z_index = -101
 position = Vector2(632.99994, 824.00006)
@@ -41,34 +43,34 @@ rotation = 0.6859144
 scale = Vector2(0.056250002, 0.056250002)
 texture = ExtResource("6_nb51f")
 
-[node name="level2_planets" type="Node2D" parent="."]
+[node name="level2_planets" type="Node2D" parent="level_planets"]
 visible = false
 
-[node name="planet3" type="Sprite2D" parent="level2_planets"]
+[node name="planet3" type="Sprite2D" parent="level_planets/level2_planets"]
 modulate = Color(0.7204674, 0.7204675, 0.7204674, 1)
 z_index = -94
 position = Vector2(1576, 751.00006)
 scale = Vector2(0.33906236, 0.33906236)
 texture = ExtResource("7_nnt18")
 
-[node name="planet4" type="Sprite2D" parent="level2_planets"]
+[node name="planet4" type="Sprite2D" parent="level_planets/level2_planets"]
 modulate = Color(0.86898494, 0.8689849, 0.8689849, 1)
 z_index = -94
 position = Vector2(311, 271)
 scale = Vector2(0.18125, 0.18125)
 texture = ExtResource("8_ewbju")
 
-[node name="planet5" type="Sprite2D" parent="level2_planets"]
+[node name="planet5" type="Sprite2D" parent="level_planets/level2_planets"]
 modulate = Color(0.5211406, 0.52114064, 0.52114046, 1)
 z_index = -101
 position = Vector2(170, 185)
 scale = Vector2(0.06718748, 0.06718748)
 texture = ExtResource("9_85qyi")
 
-[node name="level3_planets" type="Node2D" parent="."]
+[node name="level3_planets" type="Node2D" parent="level_planets"]
 visible = false
 
-[node name="planet6" type="Sprite2D" parent="level3_planets"]
+[node name="planet6" type="Sprite2D" parent="level_planets/level3_planets"]
 modulate = Color(0.51761866, 0.5851272, 0.29984733, 1)
 z_index = -94
 position = Vector2(1850, 67)
@@ -84,7 +86,8 @@ navigation_polygon = SubResource("NavigationPolygon_o5yvi")
 position = Vector2(563, 346)
 
 [node name="player" parent="NavigationRegion2D" instance=ExtResource("3_rku1e")]
-position = Vector2(968, 540)
+position = Vector2(960, 540)
 rotation = -1.5707964
+scale = Vector2(0.7999999, 0.7999999)
 
 [connection signal="bake_finished" from="NavigationRegion2D" to="." method="_on_navigation_region_2d_bake_finished"]
