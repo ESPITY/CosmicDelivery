@@ -1,0 +1,298 @@
+[gd_scene load_steps=16 format=3 uid="uid://dwyy573ls8x2a"]
+
+[ext_resource type="Script" uid="uid://4cbox7s84eyp" path="res://Scripts/ui_scripts/level_selector.gd" id="1_esl3q"]
+[ext_resource type="Texture2D" uid="uid://5ykemf7p36lh" path="res://Sprites/ui/button_rectangle.png" id="2_87lq4"]
+[ext_resource type="FontFile" uid="uid://3qarcachwbyy" path="res://fonts/Kenney Future Narrow.ttf" id="3_3r66n"]
+[ext_resource type="Texture2D" uid="uid://dyxmejaf0c5aq" path="res://Sprites/ui/panel_level1.png" id="4_tn34m"]
+[ext_resource type="StyleBox" uid="uid://2rw3badxkoaf" path="res://Resources/buttons_themes/button_normal.tres" id="5_llsi2"]
+[ext_resource type="StyleBox" uid="uid://0sfabesjaq6g" path="res://Resources/buttons_themes/button_pressed.tres" id="6_pt41v"]
+[ext_resource type="StyleBox" uid="uid://bdd46xgdpk83q" path="res://Resources/buttons_themes/button_hover.tres" id="7_7saco"]
+[ext_resource type="Texture2D" uid="uid://dgd0ejjllpod" path="res://Sprites/ui/panel_level2.png" id="8_scpoi"]
+[ext_resource type="Texture2D" uid="uid://cbbcccgs4y2it" path="res://Sprites/ui/panel_level3.png" id="9_wavag"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_oef0k"]
+texture = ExtResource("2_87lq4")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ce3w2"]
+texture = ExtResource("4_tn34m")
+
+[sub_resource type="Theme" id="Theme_ce3w2"]
+default_font = ExtResource("3_3r66n")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_oto5v"]
+texture = ExtResource("8_scpoi")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bivqt"]
+texture = ExtResource("9_wavag")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2h1o8"]
+texture = ExtResource("2_87lq4")
+
+[node name="level_selector" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_esl3q")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="title" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 640
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 640
+theme_override_constants/margin_bottom = 100
+
+[node name="Panel" type="Panel" parent="VBoxContainer/title"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_oef0k")
+
+[node name="Label" type="Label" parent="VBoxContainer/title/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -263.5
+offset_top = -27.0
+offset_right = 263.5
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 16
+theme_override_constants/shadow_outline_size = 14
+theme_override_fonts/font = ExtResource("3_3r66n")
+theme_override_font_sizes/font_size = 48
+text = "Level Selector"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="levels" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_right = 200
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/levels"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 134
+
+[node name="Panel" type="Panel" parent="VBoxContainer/levels/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_ce3w2")
+
+[node name="Label" type="Label" parent="VBoxContainer/levels/HBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.74300003
+anchor_bottom = 0.164
+offset_left = 53.0
+offset_top = 10.0
+offset_right = -63.831024
+offset_bottom = -3.5480003
+theme = SubResource("Theme_ce3w2")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.72156864)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 39
+text = "LEVEL 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/levels/HBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -96.0
+offset_top = -50.0
+offset_right = 96.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 26
+
+[node name="level_1_button" type="Button" parent="VBoxContainer/levels/HBoxContainer/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.4627451, 0.011764706, 0.078431375, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("3_3r66n")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = ExtResource("5_llsi2")
+theme_override_styles/pressed = ExtResource("6_pt41v")
+theme_override_styles/hover = ExtResource("7_7saco")
+text = "PLAY"
+
+[node name="Panel2" type="Panel" parent="VBoxContainer/levels/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_oto5v")
+
+[node name="Label" type="Label" parent="VBoxContainer/levels/HBoxContainer/Panel2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.73800004
+anchor_bottom = 0.164
+offset_left = 53.0
+offset_top = 10.0
+offset_right = -51.746002
+offset_bottom = -3.5480003
+theme = SubResource("Theme_ce3w2")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.72156864)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 39
+text = "LEVEL 2"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/levels/HBoxContainer/Panel2"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -96.0
+offset_top = -50.0
+offset_right = 96.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 26
+
+[node name="level_2_button" type="Button" parent="VBoxContainer/levels/HBoxContainer/Panel2/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.4627451, 0.011764706, 0.078431375, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("3_3r66n")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = ExtResource("5_llsi2")
+theme_override_styles/pressed = ExtResource("6_pt41v")
+theme_override_styles/hover = ExtResource("7_7saco")
+text = "PLAY"
+
+[node name="Panel3" type="Panel" parent="VBoxContainer/levels/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_bivqt")
+
+[node name="Label" type="Label" parent="VBoxContainer/levels/HBoxContainer/Panel3"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.74200004
+anchor_bottom = 0.16700001
+offset_left = 53.0
+offset_top = 10.0
+offset_right = -54.156006
+offset_bottom = -4.6190033
+theme = SubResource("Theme_ce3w2")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.72156864)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 39
+text = "LEVEL 3"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/levels/HBoxContainer/Panel3"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -96.0
+offset_top = -50.0
+offset_right = 96.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 26
+
+[node name="level_3_button" type="Button" parent="VBoxContainer/levels/HBoxContainer/Panel3/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.4627451, 0.011764706, 0.078431375, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("3_3r66n")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = ExtResource("5_llsi2")
+theme_override_styles/pressed = ExtResource("6_pt41v")
+theme_override_styles/hover = ExtResource("7_7saco")
+text = "PLAY"
+
+[node name="back" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 800
+theme_override_constants/margin_top = 120
+theme_override_constants/margin_right = 800
+theme_override_constants/margin_bottom = 120
+
+[node name="Panel" type="Panel" parent="VBoxContainer/back"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_2h1o8")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/back/Panel"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -25.5
+offset_bottom = 25.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_right = 48
+
+[node name="back_button" type="Button" parent="VBoxContainer/back/Panel/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.4627451, 0.011764706, 0.078431375, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("3_3r66n")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = ExtResource("5_llsi2")
+theme_override_styles/pressed = ExtResource("6_pt41v")
+theme_override_styles/hover = ExtResource("7_7saco")
+text = "BACK"
+
+[connection signal="pressed" from="VBoxContainer/levels/HBoxContainer/Panel/VBoxContainer/level_1_button" to="." method="_on_level_1_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/levels/HBoxContainer/Panel2/VBoxContainer/level_2_button" to="." method="_on_level_2_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/levels/HBoxContainer/Panel3/VBoxContainer/level_3_button" to="." method="_on_level_3_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/back/Panel/MarginContainer/back_button" to="." method="_on_back_button_pressed"]

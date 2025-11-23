@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dgd0ejjllpod"
-path="res://.godot/imported/panel_level2.png-4ccd47219ffe6f2a6cae346b6a481de3.ctex"
+uid="uid://brpbo800d2dl2"
+path="res://.godot/imported/enemy_spaceship.png-3756d75cbd03806fd847a14cd54b4469.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/ui/panel_level2.png"
-dest_files=["res://.godot/imported/panel_level2.png-4ccd47219ffe6f2a6cae346b6a481de3.ctex"]
+source_file="res://Sprites/spaceships/enemy_spaceship.png"
+dest_files=["res://.godot/imported/enemy_spaceship.png-3756d75cbd03806fd847a14cd54b4469.ctex"]
 
 [params]
 

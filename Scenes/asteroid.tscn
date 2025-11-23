@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dsxvpyxrk5ju4"]
 
 [ext_resource type="Script" uid="uid://bevymi0npmov5" path="res://Scripts/asteroid.gd" id="1_wm1ig"]
-[ext_resource type="Texture2D" uid="uid://0wm8ieqywjly" path="res://Sprites/Asteroids/Asteroid_Huge-1.png" id="2_xliy4"]
+[ext_resource type="Texture2D" uid="uid://0wm8ieqywjly" path="res://Sprites/asteroids_sprites/Asteroid_Huge-1.png" id="2_xliy4"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_a2bka"]
 friction = 0.0

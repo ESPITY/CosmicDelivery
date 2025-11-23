@@ -20,7 +20,7 @@ script = ExtResource("1_ldgsr")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="hud" parent="CanvasLayer" node_paths=PackedStringArray("player") instance=ExtResource("2_o5yvi")]
-player = NodePath("../../NavigationRegion2D/player")
+player = NodePath("../../NavigationRegion2D/CharacterBody2D")
 
 [node name="level1_planets" type="Node2D" parent="."]
 visible = false
@@ -83,7 +83,7 @@ navigation_polygon = SubResource("NavigationPolygon_o5yvi")
 [node name="enemy" parent="NavigationRegion2D" instance=ExtResource("11_o5yvi")]
 position = Vector2(563, 346)
 
-[node name="player" parent="NavigationRegion2D" instance=ExtResource("3_rku1e")]
+[node name="CharacterBody2D" parent="NavigationRegion2D" instance=ExtResource("3_rku1e")]
 position = Vector2(968, 540)
 rotation = -1.5707964
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dgd0ejjllpod"
-path="res://.godot/imported/panel_level2.png-4ccd47219ffe6f2a6cae346b6a481de3.ctex"
+uid="uid://bctedx1fr2r3o"
+path="res://.godot/imported/Asteroid_Medium-1.png-13e5ca6271ef07084a2308b8d93da3b8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/ui/panel_level2.png"
-dest_files=["res://.godot/imported/panel_level2.png-4ccd47219ffe6f2a6cae346b6a481de3.ctex"]
+source_file="res://Sprites/asteroids_sprites/Asteroid_Medium-1.png"
+dest_files=["res://.godot/imported/Asteroid_Medium-1.png-13e5ca6271ef07084a2308b8d93da3b8.ctex"]
 
 [params]
 

@@ -27,7 +27,7 @@ func _ready() -> void:
 
 	if asteroid["collision"]:
 		var texture_name = sprite.texture.resource_path.get_file().replace(".png", "")
-		var collision_path = "res://Resources/Asteroid_CS_%s.tres" % texture_name.replace("Asteroid_", "")
+		var collision_path = "res://Resources/asteroids_collisions/Asteroid_CS_%s.tres" % texture_name.replace("Asteroid_", "")
 		collision.shape = load(collision_path)
 	
 	var speed = randf_range(asteroid["speed_range"].x, asteroid["speed_range"].y)

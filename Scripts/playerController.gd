@@ -30,7 +30,7 @@ var propeller_options = {
 }
 
 # Wrap around
-@onready var sprite = $spaceship
+@onready var sprite = $spaceship_sprite
 @onready var timer_max_outside = $timer_max_outside
 
 @export var expel_force: float = 200
@@ -46,15 +46,21 @@ var fired: bool = false
 
 # Vida
 @export var max_health: float = 100
+
 var health: float = max_health
+
 signal update_healthbar(health)
 
-
-# Rotación y movimiento de la nave con aceleración y fricción
-func movement(delta):
-	# Rotación con deceleración y aceleración
+func _physics_process(delta):
+	rotate_player(delta)
+	move_player(delta)
+	move_and_slide()
+	teleport()
+	fire()
+	
+# Movimiento con fricción y aceleración	
+func rotate_player(delta):
 	rotation_direction = Input.get_axis("left", "right")
-	#rotation += rotation_direction * rotation_speed * delta
 	if rotation_direction == 0:
 		rotation_direction = sign(rotational_velocity) * -1
 	
@@ -63,7 +69,8 @@ func movement(delta):
 	
 	rotation += rotational_velocity * delta
 	
-	# Movimiento con fricción y aceleración
+# Rotación con deceleración y aceleración	
+func move_player(delta):
 	movement_direction = Input.get_axis("down", "up")
 	if movement_direction == 0:
 		velocity = velocity.move_toward(Vector2.ZERO, (vel_deceleration * delta))
@@ -71,11 +78,52 @@ func movement(delta):
 		velocity += transform.x * movement_direction * (vel_acceleration * delta)
 		velocity = velocity.limit_length(max_speed)
 	
+# Wrap around (teletransporte en los bordes y expulsión al campear)
+func teleport():
+	var screen_size = get_viewport_rect().size
+	var sprite_size = sprite.texture.get_size() / 2
+	
+	global_position.x = wrapf(global_position.x, -sprite_size.x, screen_size.x + sprite_size.x)
+	global_position.y = wrapf(global_position.y, -sprite_size.y, screen_size.y + sprite_size.y)
+	
+	# Si la nave está fuera de los límites comienza el temporizador de campear
+	var out_of_bounds = false
+	if (global_position.x < 0 or global_position.x > screen_size.x) or (global_position.y < 0 or global_position.y > screen_size.y):
+		out_of_bounds = true
+			
+	if out_of_bounds && timer_max_outside.is_stopped():
+		timer_max_outside.start()
+	elif !out_of_bounds && !timer_max_outside.is_stopped():
+		timer_max_outside.stop()
+
+# Cuando el jugador lleva demasiado tiempo fuera del mapa se le expulsa hacia el centro
+func _on_timer_max_outside_timeout() -> void:
+	var direction_to_center = (get_viewport_rect().size / 2 - global_position).normalized()
+	velocity = direction_to_center * expel_force
+	timer_max_outside.stop()
+
+# Disparar cada X tiempo
+func fire():
+	if Input.is_action_pressed("fire") && !fired:
+		fired = true
+		var bullet_inst1 = bullet.instantiate()
+		get_parent().add_child(bullet_inst1)
+		bullet_inst1.global_position = left_gun.global_position
+		bullet_inst1.rotation = rotation
+		
+		var bullet_inst2 = bullet.instantiate()
+		get_parent().add_child(bullet_inst2)
+		bullet_inst2.global_position = right_gun.global_position
+		bullet_inst2.rotation = rotation
+		
+		await get_tree().create_timer(fire_timer).timeout
+		fired = false
+		
 func _input(event):
 	if event is InputEventKey:
 		if event.pressed || event.is_released():
 			propulsion()	# Solo realizar la comprobación cuando se pulsa o suelta una tecla
-	
+
 # Visibilidad de los propulsores según el movimiento
 func propulsion():
 	var input_action = "none"
@@ -103,74 +151,25 @@ func propulsion():
 	back_right_propeller.visible = propellers[1]
 	front_left_propeller.visible = propellers[2]
 	front_right_propeller.visible = propellers[3]
-	
-# Wrap around (teletransporte en los bordes y expulsión al campear)
-func teleport():
-	var screen_size = get_viewport_rect().size
-	var sprite_size = sprite.texture.get_size() / 2
-	
-	global_position.x = wrapf(global_position.x, -sprite_size.x, screen_size.x + sprite_size.x)
-	global_position.y = wrapf(global_position.y, -sprite_size.y, screen_size.y + sprite_size.y)
-	
-	# Si la nave está fuera de los límites comienza el temprizador de campear
-	var out_of_bounds = false
-	if (global_position.x < 0 or global_position.x > screen_size.x) or (global_position.y < 0 or global_position.y > screen_size.y):
-		out_of_bounds = true
-			
-	if out_of_bounds && timer_max_outside.is_stopped():
-		timer_max_outside.start()
-	elif !out_of_bounds && !timer_max_outside.is_stopped():
-		timer_max_outside.stop()
-
-# Cuando el jugador lleva demsiado tiempo fuera del mapa se le expulsa hacia el centro
-func _on_timer_max_outside_timeout() -> void:
-	var direction_to_center = (get_viewport_rect().size / 2 - global_position).normalized()
-	velocity = direction_to_center * expel_force
-	timer_max_outside.stop()
-
-# Disparar cada X tiempo
-func fire():
-	if Input.is_action_pressed("fire") && !fired:
-		fired = true
-		var bullet_inst1 = bullet.instantiate()
-		get_parent().add_child(bullet_inst1)
-		bullet_inst1.global_position = left_gun.global_position
-		bullet_inst1.rotation = rotation
-		
-		var bullet_inst2 = bullet.instantiate()
-		get_parent().add_child(bullet_inst2)
-		bullet_inst2.global_position = right_gun.global_position
-		bullet_inst2.rotation = rotation
-		
-		await get_tree().create_timer(fire_timer).timeout
-		fired = false
-
-func _physics_process(delta):
-	movement(delta)
-	#var hola = move_and_slide()
-	#print(hola)
-	move_and_slide()
-	teleport()
-	fire()
 
 # Detección de choque
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("asteroids"):
-		# Empuje según la dirección y la masa del asteroide
 		var asteroid = AsteroidConfig.ASTEROID_DATA[body.size]
 		
+		# Empuja al asteroide según la dirección y la masa del asteroide
 		var push_direction = (body.global_position - global_position).normalized()
-		
 		var push_force = asteroid["push_force"]
 		body.apply_central_impulse(push_direction * push_force)
 		
-		# Retroceso
+		# Retroceso del jugador
 		var player_knockback = asteroid["knockback_force"]
 		velocity += push_direction * -1 * player_knockback
 		
 		body.explode()
 		damaged(asteroid["attack"])
 
+		# Efecto visual de daño
 		sprite.modulate = Color("ff8473ff")
 		await get_tree().create_timer(0.1).timeout
 		sprite.modulate = Color("ffffff")

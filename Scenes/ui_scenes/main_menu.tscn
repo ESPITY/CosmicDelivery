@@ -1,0 +1,109 @@
+[gd_scene load_steps=8 format=3 uid="uid://dv318nu4vf0ra"]
+
+[ext_resource type="Script" uid="uid://b3wxjqhighq0s" path="res://Scripts/ui_scripts/main_menu.gd" id="1_j6qk4"]
+[ext_resource type="Texture2D" uid="uid://bcmhugmudw0ky" path="res://Sprites/ui/button_square_header_small_square.png" id="2_5unlo"]
+[ext_resource type="FontFile" uid="uid://3qarcachwbyy" path="res://fonts/Kenney Future Narrow.ttf" id="3_m68ip"]
+[ext_resource type="StyleBox" uid="uid://2rw3badxkoaf" path="res://Resources/buttons_themes/button_normal.tres" id="4_w83ce"]
+[ext_resource type="StyleBox" uid="uid://0sfabesjaq6g" path="res://Resources/buttons_themes/button_pressed.tres" id="5_gh8sf"]
+[ext_resource type="StyleBox" uid="uid://bdd46xgdpk83q" path="res://Resources/buttons_themes/button_hover.tres" id="6_a2xmf"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ce3w2"]
+texture = ExtResource("2_5unlo")
+
+[node name="main_menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_j6qk4")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 700
+theme_override_constants/margin_top = 280
+theme_override_constants/margin_right = 700
+theme_override_constants/margin_bottom = 280
+
+[node name="Panel" type="Panel" parent="MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_ce3w2")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -198.0
+offset_right = 198.0
+offset_bottom = 322.0
+grow_horizontal = 2
+theme_override_constants/separation = 48
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_top = 10
+
+[node name="title" type="Label" parent="MarginContainer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5921569)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 16
+theme_override_constants/shadow_outline_size = 14
+theme_override_fonts/font = ExtResource("3_m68ip")
+theme_override_font_sizes/font_size = 48
+text = "AstroBlaze"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_top = 17
+
+[node name="MarginContainer3" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_right = 40
+
+[node name="play_button" type="Button" parent="MarginContainer/Panel/VBoxContainer/MarginContainer3"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.4627451, 0.011764706, 0.078431375, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("3_m68ip")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = ExtResource("4_w83ce")
+theme_override_styles/pressed = ExtResource("5_gh8sf")
+theme_override_styles/hover = ExtResource("6_a2xmf")
+text = "PLAY"
+
+[node name="MarginContainer4" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_right = 40
+
+[node name="exit_button" type="Button" parent="MarginContainer/Panel/VBoxContainer/MarginContainer4"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.4627451, 0.011764706, 0.078431375, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("3_m68ip")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = ExtResource("4_w83ce")
+theme_override_styles/pressed = ExtResource("5_gh8sf")
+theme_override_styles/hover = ExtResource("6_a2xmf")
+text = "EXIT"
+
+[connection signal="pressed" from="MarginContainer/Panel/VBoxContainer/MarginContainer3/play_button" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MarginContainer/Panel/VBoxContainer/MarginContainer4/exit_button" to="." method="_on_exit_button_pressed"]

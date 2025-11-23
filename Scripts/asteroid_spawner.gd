@@ -24,7 +24,7 @@ func rand_texture(size):
 	var num_textures = AsteroidConfig.ASTEROID_DATA[size]["num_textures"]
 	var suffix = randi_range(1, num_textures)
 
-	var texture_path = "res://Sprites/Asteroids/" + AsteroidConfig.ASTEROID_DATA[size]["prefix"] + str(suffix) + ".png"
+	var texture_path = "res://Sprites/asteroids_sprites/" + AsteroidConfig.ASTEROID_DATA[size]["prefix"] + str(suffix) + ".png"
 	
 	return load(texture_path)
 	

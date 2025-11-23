@@ -1,0 +1,100 @@
+[gd_scene load_steps=5 format=3 uid="uid://p18te3mbptsf"]
+
+[ext_resource type="FontFile" uid="uid://3qarcachwbyy" path="res://fonts/Kenney Future Narrow.ttf" id="1_e0onf"]
+[ext_resource type="Script" uid="uid://7g5g8c8wr2ox" path="res://Scripts/ui_scripts/hud.gd" id="1_fccik"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e0onf"]
+bg_color = Color(0.93333334, 0.15294118, 0.2784314, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.8039216, 0.043137256, 0.16470589, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fccik"]
+bg_color = Color(0.08627451, 0.73333335, 0.46666667, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.007843138, 0.5764706, 0.34117648, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[node name="hud" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fccik")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 68.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_e0onf")
+theme_override_font_sizes/font_size = 32
+text = "Score:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_e0onf")
+theme_override_font_sizes/font_size = 32
+text = "9999"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="healthbar" type="ProgressBar" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_e0onf")
+theme_override_styles/fill = SubResource("StyleBoxFlat_fccik")
+value = 100.0
+show_percentage = false
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_e0onf")
+theme_override_font_sizes/font_size = 32
+text = "Time"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_e0onf")
+theme_override_font_sizes/font_size = 32
+text = "99:99:99"
+horizontal_alignment = 1
+vertical_alignment = 1

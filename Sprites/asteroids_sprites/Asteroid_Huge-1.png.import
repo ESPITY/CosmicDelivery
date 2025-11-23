@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dgd0ejjllpod"
-path="res://.godot/imported/panel_level2.png-4ccd47219ffe6f2a6cae346b6a481de3.ctex"
+uid="uid://0wm8ieqywjly"
+path="res://.godot/imported/Asteroid_Huge-1.png-a3a4b78a299d6cb074a66739d1b667cd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/ui/panel_level2.png"
-dest_files=["res://.godot/imported/panel_level2.png-4ccd47219ffe6f2a6cae346b6a481de3.ctex"]
+source_file="res://Sprites/asteroids_sprites/Asteroid_Huge-1.png"
+dest_files=["res://.godot/imported/Asteroid_Huge-1.png-a3a4b78a299d6cb074a66739d1b667cd.ctex"]
 
 [params]
 
