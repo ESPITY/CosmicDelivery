@@ -50,6 +50,7 @@ var fired: bool = false
 
 # Vida
 @onready var explosion_vfx = $explosion_vfx
+@onready var death_screen = preload("res://Scenes/ui_scenes/death_screen.tscn")
 
 @export var hit_effect_timer: float = 0.1
 @export var explosion_vfx_timer: float = 2
@@ -135,7 +136,7 @@ func fire():
 		fired = false
 		
 func _input(event):
-	if event is InputEventKey:
+	if event is InputEventKey && health > 0:
 		if event.pressed || event.is_released():
 			propulsion()	# Solo realizar la comprobación cuando se pulsa o suelta una tecla
 
@@ -207,7 +208,7 @@ func damaged(damage):
 		death()
 	emit_signal("update_healthbar", health)
 	
-	# Muerte con explosión
+# Muerte con explosión
 func death():
 	health = 0
 	emit_signal("update_healthbar", health)
@@ -225,5 +226,5 @@ func death():
 	explosion_vfx.play_vfx()
 	await get_tree().create_timer(explosion_vfx_timer).timeout
 	
-	get_tree().change_scene_to_file("res://Scenes/ui_scenes/death_screen.tscn")
+	get_tree().change_scene_to_packed(death_screen)
 	queue_free()

@@ -25,9 +25,9 @@ func _process(delta):
 
 # Da formato al tiempo de juego 99:99:99 (minutos, segúndos, centésimas)
 func format_time(seconds: float) -> String:
-	var mins = int(seconds) / 60
+	var mins = int(seconds / 60.0)
 	var secs = int(seconds) % 60
-	var hunds = int((seconds - int(seconds)) * 100)
+	var hunds = int((seconds - int(seconds)) * 100.0)
 	
 	mins = min(mins, 99)
 	secs = min(secs, 99)

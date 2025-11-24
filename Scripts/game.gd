@@ -2,12 +2,13 @@ extends Node2D
 
 @onready var nav_region = $NavigationRegion2D
 @onready var player = $NavigationRegion2D/player_items/player
-@onready var pause_screen = $death_screen
+@onready var pause_screen = $pause_screen
 
 @export var death_screen: PackedScene
 
 var screen_size: Vector2
 var level_start_time: float = 0.0
+var rebake_timer: bool = false
 
 
 func _ready() -> void:
@@ -40,7 +41,7 @@ func start_game():
 	screen_size = get_viewport_rect().size
 	player.global_position = screen_size / 2
 	
-	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN)
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 # Crea la región de navegación que ocupa toda la pantalla (+ margen)
 func set_nav_region():
@@ -57,9 +58,16 @@ func set_nav_region():
 	navigation_polygon.make_polygons_from_outlines()
 	nav_region.navigation_polygon = navigation_polygon
 	
-	nav_region.call_deferred("bake_navigation_polygon")
+	#nav_region.call_deferred("bake_navigation_polygon")
 
 # Cuando se termina de bakear el NavRegion2D se vuelve a bakear
 func _on_navigation_region_2d_bake_finished() -> void:
-	if Config.playing:
+	rebake_timer = false
+	#if Config.playing:
+		#nav_region.bake_navigation_polygon()
+
+# Cuando acaba el timer se bakea el NavRegion (si no hay un bakeado en proceso
+func _on_nav_rebake_timer_timeout() -> void:
+	if Config.playing and !rebake_timer:
+		rebake_timer = true
 		nav_region.bake_navigation_polygon()

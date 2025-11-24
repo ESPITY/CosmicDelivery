@@ -78,6 +78,10 @@ position = Vector2(1850, 67)
 scale = Vector2(0.27968735, 0.27968735)
 texture = ExtResource("10_iivbl")
 
+[node name="nav_rebake_timer" type="Timer" parent="."]
+wait_time = 0.06
+autostart = true
+
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_o5yvi")
 
@@ -92,4 +96,5 @@ position = Vector2(960, 540)
 rotation = -1.5707964
 scale = Vector2(0.7999999, 0.7999999)
 
+[connection signal="timeout" from="nav_rebake_timer" to="." method="_on_nav_rebake_timer_timeout"]
 [connection signal="bake_finished" from="NavigationRegion2D" to="." method="_on_navigation_region_2d_bake_finished"]

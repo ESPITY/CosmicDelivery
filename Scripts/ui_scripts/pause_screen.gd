@@ -24,7 +24,7 @@ func _process(delta: float) -> void:
 # Reanudar juego
 func resume():
 	fade_anim.play_backwards("pause")
-	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN)
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	paused = false
 	get_tree().paused = false
 	Config.playing = true
