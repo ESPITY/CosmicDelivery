@@ -27,7 +27,7 @@ corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
 [node name="healthbar" type="ProgressBar"]
-custom_minimum_size = Vector2(100, 20)
+custom_minimum_size = Vector2(80, 20)
 size_flags_horizontal = 6
 size_flags_vertical = 1
 theme_override_styles/background = SubResource("StyleBoxFlat_e0onf")

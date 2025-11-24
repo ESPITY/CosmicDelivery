@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://4cbox7s84eyp" path="res://Scripts/ui_scripts/level_selector.gd" id="1_esl3q"]
 [ext_resource type="Texture2D" uid="uid://5ykemf7p36lh" path="res://Sprites/ui/button_rectangle.png" id="2_87lq4"]
-[ext_resource type="FontFile" uid="uid://3qarcachwbyy" path="res://fonts/Kenney Future Narrow.ttf" id="3_3r66n"]
+[ext_resource type="FontFile" uid="uid://3qarcachwbyy" path="res://Resources/fonts/Kenney Future Narrow.ttf" id="3_3r66n"]
 [ext_resource type="Texture2D" uid="uid://dyxmejaf0c5aq" path="res://Sprites/ui/panel_level1.png" id="4_tn34m"]
 [ext_resource type="StyleBox" uid="uid://2rw3badxkoaf" path="res://Resources/buttons_themes/button_normal.tres" id="5_llsi2"]
 [ext_resource type="StyleBox" uid="uid://0sfabesjaq6g" path="res://Resources/buttons_themes/button_pressed.tres" id="6_pt41v"]
@@ -132,6 +132,15 @@ offset_bottom = 50.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 26
+
+[node name="Label" type="Label" parent="VBoxContainer/levels/HBoxContainer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("3_3r66n")
+theme_override_font_sizes/font_size = 36
+text = "Objective"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="level_1_button" type="Button" parent="VBoxContainer/levels/HBoxContainer/Panel/VBoxContainer"]
 layout_mode = 2

@@ -6,6 +6,23 @@ var current_level: int = 1
 var active_asteroids: int = 0
 var active_enemies: int = 0
 var player_max_health: int = 100
+var current_score: int = 0
+var level_elapsed_time: float = 0.0
+var playing: bool = false
+
+# -------------------------------- PUNTUACIONES --------------------------------
+# Objetivos de puntuación por nivel
+const LEVEL_TARGET_SCORE = {
+	1: 1000,
+	2: 3000,
+	3: 6000
+}
+
+var level_score_records = {
+	1: {"best_score": 0, "best_time": 0.0, "completed": false},
+	2: {"best_score": 0, "best_time": 0.0, "completed": false},
+	3: {"best_score": 0, "best_time": 0.0, "completed": false}
+}
 
 # ---------------------------------- JUGADOR ----------------------------------
 
@@ -22,7 +39,8 @@ const PLAYER_DATA = {
 const ENEMY_DATA = {
 	"attack": 10,
 	"hit_object": 5,
-	"max_health": 100
+	"max_health": 100,
+	"points": 150
 }
 
 # Datos de configuración del SPAWNER ENEMIGOS según el NIVEL
@@ -78,7 +96,8 @@ const ASTEROID_DATA = {
 		"friction": 0.0,
 		"bounce": 0.1,
 		"push_force": 800.0,
-		"knockback_force": 100.0
+		"knockback_force": 100.0,
+		"points": 100
 	},
 	asteroid_size.BIG: {
 		"speed_range": Vector2(75, 150),
@@ -92,7 +111,8 @@ const ASTEROID_DATA = {
 		"friction": 0.0,
 		"bounce": 0.2,
 		"push_force": 1200.0,
-		"knockback_force": 80.0
+		"knockback_force": 80.0,
+		"points": 75
 	},
 	asteroid_size.MEDIUM: {
 		"speed_range": Vector2(100, 200),
@@ -106,7 +126,8 @@ const ASTEROID_DATA = {
 		"friction": 0.0,
 		"bounce": 0.3,
 		"push_force": 1600.0,
-		"knockback_force": 40.0
+		"knockback_force": 40.0,
+		"points": 50
 	},
 	asteroid_size.SMALL: {
 		"speed_range": Vector2(125, 250),
@@ -120,7 +141,8 @@ const ASTEROID_DATA = {
 		"friction": 0.0,
 		"bounce": 0.4,
 		"push_force": 2000.0,
-		"knockback_force": 20.0
+		"knockback_force": 20.0,
+		"points": 25
 	},
 	asteroid_size.TINY: {
 		"speed_range": Vector2(150, 300),
@@ -134,7 +156,8 @@ const ASTEROID_DATA = {
 		"friction": 0.0,
 		"bounce": 0.5,
 		"push_force": 2400.0,
-		"knockback_force": 10.0
+		"knockback_force": 10.0,
+		"points": 10
 	}
 }
 

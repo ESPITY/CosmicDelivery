@@ -1,6 +1,9 @@
 extends Control
 
-
+# Muestra el cursor
+func _ready() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	
 # Botón nivel 1
 func _on_level_1_button_pressed() -> void:
 	Config.current_level = 1

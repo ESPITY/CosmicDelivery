@@ -32,6 +32,7 @@ var propeller_options = {
 # Wrap around
 @onready var sprite = $spaceship_sprite
 @onready var timer_max_outside = $timer_max_outside
+@onready var hits_collision = $Area2D_hits/hits_collision
 
 @export var expel_force: float = 200
 
@@ -48,6 +49,11 @@ var sprite_size: Vector2
 var fired: bool = false
 
 # Vida
+@onready var explosion_vfx = $explosion_vfx
+
+@export var hit_effect_timer: float = 0.1
+@export var explosion_vfx_timer: float = 2
+
 var max_health = Config.PLAYER_DATA["max_health"]
 var health: float = max_health
 
@@ -60,12 +66,13 @@ func _ready():
 	sprite_size = sprite.texture.get_size() / 2
 
 func _physics_process(delta):
-	rotate_player(delta)
-	move_player(delta)
-	move_and_slide()
-	teleport()
-	fire()
-	velocity = velocity.limit_length(max_speed)	# Velocidad máxima
+	if health > 0:
+		rotate_player(delta)
+		move_player(delta)
+		move_and_slide()
+		teleport()
+		fire()
+		velocity = velocity.limit_length(max_speed)	# Velocidad máxima
 	
 # Movimiento con fricción y aceleración	
 func rotate_player(delta):
@@ -87,17 +94,17 @@ func move_player(delta):
 		velocity += transform.x * movement_direction * (vel_acceleration * delta)
 		velocity = velocity.limit_length(max_speed)
 	
-# Wrap around (teletransporte en los bordes y expulsión)
+# Wrap around (teletransporte en los bordes y expulsión) + desactivar colisión fuera de pantalla
 func teleport():
 	global_position.x = wrapf(global_position.x, -sprite_size.x, screen_size.x + sprite_size.x)
 	global_position.y = wrapf(global_position.y, -sprite_size.y, screen_size.y + sprite_size.y)
 	
 	# Si la nave está fuera de los límites comienza el temporizador de expulsión
 	var out_of_bounds = false
-	$Area2D_hits/CollisionPolygon2D2.disabled = false
+	hits_collision.disabled = false
 	if (global_position.x < 0 or global_position.x > screen_size.x) or (global_position.y < 0 or global_position.y > screen_size.y):
 		out_of_bounds = true
-		$Area2D_hits/CollisionPolygon2D2.disabled = true
+		hits_collision.disabled = true
 			
 	if out_of_bounds && timer_max_outside.is_stopped():
 		timer_max_outside.start()
@@ -186,7 +193,7 @@ func _on_area_2d_hits_body_entered(body: Node2D) -> void:
 # Efecto visual de daño
 func hit_effect():
 	sprite.modulate = Color("ff8473ff")
-	await get_tree().create_timer(0.1).timeout
+	await get_tree().create_timer(hit_effect_timer).timeout
 	sprite.modulate = Color("ffffff")
 
 # Connect healthbar
@@ -195,8 +202,28 @@ func connect_healthbar(healthbar):
 
 # Daño
 func damaged(damage):
-	print(damage)
 	health -= damage
 	if health <= 0:
-		health = 0
+		death()
 	emit_signal("update_healthbar", health)
+	
+	# Muerte con explosión
+func death():
+	health = 0
+	emit_signal("update_healthbar", health)
+	await get_tree().create_timer(0.1).timeout
+	
+	sprite.visible = false
+	back_left_propeller.visible = false
+	back_right_propeller.visible = false
+	front_left_propeller.visible = false
+	front_right_propeller.visible = false
+	hits_collision.call_deferred("set", "disabled", true)
+	$physics_collision.call_deferred("set", "disabled", true)
+	Config.playing = false
+	
+	explosion_vfx.play_vfx()
+	await get_tree().create_timer(explosion_vfx_timer).timeout
+	
+	get_tree().change_scene_to_file("res://Scenes/ui_scenes/death_screen.tscn")
+	queue_free()

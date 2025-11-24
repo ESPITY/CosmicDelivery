@@ -10,6 +10,7 @@ var player: Node2D
 
 # State machine
 @export var expel_state_time: float = 1.5
+@export var min_shooting_time: float = 0.5
 
 enum State { APPROACHING, SHOOTING, EXPELLED }
 
@@ -21,6 +22,7 @@ var current_state: State = State.APPROACHING
 # Wrap around
 @onready var sprite = $spaceship_sprite
 @onready var timer_max_outside = $timer_max_outside
+@onready var hits_collision = $Area2D_hits/hits_collision
 
 @export var expel_force: float = 200
 
@@ -37,6 +39,10 @@ var fired: bool = false
 
 # Vida
 @onready var healthbar = $healthbar
+@onready var explosion_vfx = $explosion_vfx
+
+@export var hit_effect_timer: float = 0.1
+@export var explosion_vfx_timer: float = 2
 
 var max_health = Config.ENEMY_DATA["max_health"]
 var health: float = max_health
@@ -64,34 +70,37 @@ func _ready():
 
 # Máquina de estados
 func _physics_process(delta):
-	var distance = global_position.distance_to(player.global_position)
-	
-	match current_state:
-		State.APPROACHING:
-			propeller.visible = true 
-			if distance <= shooting_distance:
-				current_state = State.SHOOTING
-			else:
-				update_nav()
+	if health > 0 && player && player.health > 0:
+		var distance = global_position.distance_to(player.global_position)
 		
-		State.SHOOTING:
-			propeller.visible = false
-			fire()
-			if distance > shooting_distance:
-				current_state = State.APPROACHING
-			else:
-				rotate_towards(player.global_position, delta)
-				velocity = Vector2.ZERO
+		match current_state:
+			State.APPROACHING:
+				propeller.visible = true 
+				if distance <= shooting_distance:
+					current_state = State.SHOOTING
+				else:
+					update_nav()
+			
+			State.SHOOTING:
+				propeller.visible = false
+				if distance > shooting_distance:
+					await get_tree().create_timer(min_shooting_time).timeout
+					current_state = State.APPROACHING
+				else:
+					rotate_towards(player.global_position, delta)
+					fire()
+					velocity = Vector2.ZERO
+					move_and_slide()
+					
+			State.EXPELLED:
+				propeller.visible = true 
 				move_and_slide()
 				
-		State.EXPELLED:
-			propeller.visible = true 
-			move_and_slide()
-			
-	velocity = velocity.limit_length(max_speed)	# Velocidad máxima
+		velocity = velocity.limit_length(max_speed)	# Velocidad máxima
 
 func _process(delta):
-	teleport()
+	if health > 0 && player && player.health > 0:
+		teleport()
 	
 # Navegacion y cálculo del path
 func update_nav():
@@ -141,7 +150,7 @@ func rotate_towards(target_pos: Vector2, delta: float):
 	var direction = (target_pos - global_position).normalized()
 	rotation = lerp_angle(rotation, direction.angle(), 8 * delta)
 	
-# Wrap around (teletransporte en los bordes y expulsión)
+# Wrap around (teletransporte en los bordes y expulsión) + desactivar colisión fuera de pantalla
 func teleport():
 	global_position.x = wrapf(global_position.x, -sprite_size.x, screen_size.x + sprite_size.x)
 	global_position.y = wrapf(global_position.y, -sprite_size.y, screen_size.y + sprite_size.y)
@@ -149,11 +158,11 @@ func teleport():
 	# Si está fuera de los límites comienza el temporizador de expulsión
 	var out_of_bounds = false
 	healthbar.visible = true
-	$Area2D_hits/CollisionPolygon2D2.disabled = true
+	hits_collision.disabled = false
 	if (global_position.x < 0 or global_position.x > screen_size.x) or (global_position.y < 0 or global_position.y > screen_size.y):
 		out_of_bounds = true	
 		healthbar.visible = false
-		$Area2D_hits/CollisionPolygon2D2.disabled = false
+		hits_collision.disabled = true
 			
 	if out_of_bounds && timer_max_outside.is_stopped():
 		timer_max_outside.start()
@@ -208,15 +217,32 @@ func _on_area_2d_hits_body_entered(body: Node2D) -> void:
 # Efecto visual de daño
 func hit_effect():
 	sprite.modulate = Color("ff8473ff")
-	await get_tree().create_timer(0.1).timeout
+	await get_tree().create_timer(hit_effect_timer).timeout
 	sprite.modulate = Color("ffffff")
 
 # Daño
 func damaged(damage):
-	print(damage)
 	health -= damage
 	if health <= 0:
-		health = 0
-		Config.active_enemies -= 1
-		queue_free()
+		death()
 	emit_signal("update_healthbar", health)
+
+# Muerte con explosión
+func death():
+	health = 0
+	emit_signal("update_healthbar", health)
+	await get_tree().create_timer(0.1).timeout
+	
+	Config.active_enemies -= 1
+	Config.current_score += Config.ENEMY_DATA["points"]
+	
+	sprite.visible = false
+	propeller.visible = false
+	healthbar.visible = false
+	hits_collision.call_deferred("set", "disabled", true)
+	$physics_collision.call_deferred("set", "disabled", true)
+	
+	explosion_vfx.play_vfx()
+	await get_tree().create_timer(explosion_vfx_timer).timeout
+	
+	queue_free()

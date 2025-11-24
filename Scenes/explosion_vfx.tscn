@@ -1,0 +1,88 @@
+[gd_scene load_steps=12 format=3 uid="uid://twbv8aufq15s"]
+
+[ext_resource type="Script" uid="uid://br6x700v1xclk" path="res://Scripts/explosion_vfx.gd" id="1_cw5g2"]
+
+[sub_resource type="Gradient" id="Gradient_6t5aa"]
+colors = PackedColorArray(1, 0.78431374, 0, 1, 1, 0.22352941, 0.23137255, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_vgqql"]
+gradient = SubResource("Gradient_6t5aa")
+
+[sub_resource type="Curve" id="Curve_fkybt"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_x3wgy"]
+curve = SubResource("Curve_fkybt")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3smsa"]
+particle_flag_disable_z = true
+angle_min = 1.0728835e-05
+angle_max = 360.00003
+spread = 180.0
+initial_velocity_min = 100.0
+initial_velocity_max = 140.0
+gravity = Vector3(0, 0, 0)
+damping_min = 20.0
+damping_max = 28.000002
+scale_min = 15.0
+scale_max = 20.0
+scale_curve = SubResource("CurveTexture_x3wgy")
+color_ramp = SubResource("GradientTexture1D_vgqql")
+
+[sub_resource type="Curve" id="Curve_d3ub5"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.5093168, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_cw5g2"]
+curve = SubResource("Curve_d3ub5")
+
+[sub_resource type="Curve" id="Curve_vlplt"]
+_limits = [0.0, 2.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.5), 0.0, 0.0, 0, 0]
+point_count = 2
+metadata/_snap_enabled = true
+metadata/_snap_count = 20
+
+[sub_resource type="CurveTexture" id="CurveTexture_sg1lp"]
+curve = SubResource("Curve_vlplt")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6t5aa"]
+particle_flag_disable_z = true
+angle_min = 1.0728835e-05
+angle_max = 360.00003
+spread = 170.053
+initial_velocity_min = 50.0
+initial_velocity_max = 120.0
+angular_velocity_min = -202.61002
+angular_velocity_max = 119.999985
+gravity = Vector3(0, 0, 0)
+damping_min = 12.000001
+damping_max = 16.0
+scale_min = 14.0
+scale_max = 22.0
+scale_curve = SubResource("CurveTexture_sg1lp")
+alpha_curve = SubResource("CurveTexture_cw5g2")
+
+[node name="explosion_vfx" type="Node2D"]
+z_index = 10
+scale = Vector2(0.99999994, 0.99999994)
+script = ExtResource("1_cw5g2")
+
+[node name="fire_vfx" type="GPUParticles2D" parent="."]
+scale = Vector2(1.0000001, 1.0000001)
+emitting = false
+amount = 20
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_3smsa")
+
+[node name="smoke_vfx" type="GPUParticles2D" parent="."]
+scale = Vector2(0.99999976, 0.99999976)
+emitting = false
+amount = 26
+lifetime = 1.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_6t5aa")

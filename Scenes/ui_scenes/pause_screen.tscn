@@ -1,0 +1,314 @@
+[gd_scene load_steps=12 format=3 uid="uid://boyb8u6vpyi2r"]
+
+[ext_resource type="Script" uid="uid://cwx2wqxwogvin" path="res://Scripts/ui_scripts/pause_screen.gd" id="1_a0opb"]
+[ext_resource type="Texture2D" uid="uid://5ykemf7p36lh" path="res://Sprites/ui/button_rectangle.png" id="2_qf24l"]
+[ext_resource type="FontFile" uid="uid://3qarcachwbyy" path="res://Resources/fonts/Kenney Future Narrow.ttf" id="3_vl0fm"]
+[ext_resource type="StyleBox" uid="uid://2rw3badxkoaf" path="res://Resources/buttons_themes/button_normal.tres" id="4_4fivw"]
+[ext_resource type="StyleBox" uid="uid://0sfabesjaq6g" path="res://Resources/buttons_themes/button_pressed.tres" id="5_fbn3d"]
+[ext_resource type="StyleBox" uid="uid://bdd46xgdpk83q" path="res://Resources/buttons_themes/button_hover.tres" id="6_k50k6"]
+
+[sub_resource type="Animation" id="Animation_a0opb"]
+resource_name = "pause"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.033333335, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MarginContainer/VBoxContainer:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.06666667, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_qf24l"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MarginContainer/VBoxContainer:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qf24l"]
+_data = {
+&"RESET": SubResource("Animation_qf24l"),
+&"pause": SubResource("Animation_a0opb")
+}
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4e4vb"]
+texture = ExtResource("2_qf24l")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ihvk2"]
+texture = ExtResource("2_qf24l")
+
+[node name="pause_screen" type="CanvasLayer"]
+process_mode = 3
+layer = 2
+script = ExtResource("1_a0opb")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0006938968, 0.00069389783, 0.0006938976, 0.49019608)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_qf24l")
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 200
+theme_override_constants/margin_bottom = 100
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="title" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 440
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 440
+theme_override_constants/margin_bottom = 0
+
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/title"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_4e4vb")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/title/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -263.5
+offset_top = -27.0
+offset_right = 263.5
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 16
+theme_override_constants/shadow_outline_size = 14
+theme_override_fonts/font = ExtResource("3_vl0fm")
+theme_override_font_sizes/font_size = 48
+text = "PAUSED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 20
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 580
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 580
+theme_override_constants/margin_bottom = 20
+
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_ihvk2")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer2/Panel"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -25.5
+offset_bottom = 25.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_right = 48
+
+[node name="resume_button" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer2/Panel/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.4627451, 0.011764706, 0.078431375, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("3_vl0fm")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = ExtResource("4_4fivw")
+theme_override_styles/pressed = ExtResource("5_fbn3d")
+theme_override_styles/hover = ExtResource("6_k50k6")
+text = "RESUME"
+
+[node name="MarginContainer4" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 580
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 580
+theme_override_constants/margin_bottom = 20
+
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/MarginContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_ihvk2")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer4/Panel"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -25.5
+offset_bottom = 25.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_right = 48
+
+[node name="restart_button" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer4/Panel/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.4627451, 0.011764706, 0.078431375, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("3_vl0fm")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = ExtResource("4_4fivw")
+theme_override_styles/pressed = ExtResource("5_fbn3d")
+theme_override_styles/hover = ExtResource("6_k50k6")
+text = "RESTART"
+
+[node name="MarginContainer3" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 580
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 580
+theme_override_constants/margin_bottom = 20
+
+[node name="Panel2" type="Panel" parent="MarginContainer/VBoxContainer/MarginContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_ihvk2")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer3/Panel2"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -25.5
+offset_bottom = 25.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_right = 48
+
+[node name="menu_button" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer3/Panel2/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.4627451, 0.011764706, 0.078431375, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("3_vl0fm")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = ExtResource("4_4fivw")
+theme_override_styles/pressed = ExtResource("5_fbn3d")
+theme_override_styles/hover = ExtResource("6_k50k6")
+text = "MENU"
+
+[node name="MarginContainer5" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 580
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 580
+theme_override_constants/margin_bottom = 20
+
+[node name="Panel2" type="Panel" parent="MarginContainer/VBoxContainer/MarginContainer5"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_ihvk2")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer5/Panel2"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -25.5
+offset_bottom = 25.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_right = 48
+
+[node name="exit_button" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer5/Panel2/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.4627451, 0.011764706, 0.078431375, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("3_vl0fm")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = ExtResource("4_4fivw")
+theme_override_styles/pressed = ExtResource("5_fbn3d")
+theme_override_styles/hover = ExtResource("6_k50k6")
+text = "EXIT"
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer2/Panel/MarginContainer/resume_button" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer4/Panel/MarginContainer/restart_button" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer3/Panel2/MarginContainer/menu_button" to="." method="_on_menu_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer5/Panel2/MarginContainer/exit_button" to="." method="_on_exit_button_pressed"]

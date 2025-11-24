@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://b0exmhh0wrc71"]
+[gd_scene load_steps=14 format=3 uid="uid://b0exmhh0wrc71"]
 
 [ext_resource type="Script" uid="uid://dt70ctfgbhccq" path="res://Scripts/game.gd" id="1_ldgsr"]
 [ext_resource type="PackedScene" uid="uid://p18te3mbptsf" path="res://Scenes/ui_scenes/hud.tscn" id="2_o5yvi"]
+[ext_resource type="PackedScene" uid="uid://boyb8u6vpyi2r" path="res://Scenes/ui_scenes/pause_screen.tscn" id="2_rku1e"]
 [ext_resource type="PackedScene" uid="uid://dbr0we6yg5x5p" path="res://Scenes/player.tscn" id="3_rku1e"]
 [ext_resource type="PackedScene" uid="uid://b4yxq42ixguqi" path="res://Scenes/asteroid_spawner.tscn" id="4_rfjv2"]
 [ext_resource type="Texture2D" uid="uid://ddpbjro4paqh5" path="res://Sprites/planets/planet1.png" id="5_1phco"]
@@ -18,10 +19,9 @@ parsed_collision_mask = 4294967061
 [node name="game" type="Node2D"]
 script = ExtResource("1_ldgsr")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="pause_screen" parent="." instance=ExtResource("2_rku1e")]
 
-[node name="hud" parent="CanvasLayer" node_paths=PackedStringArray("player") instance=ExtResource("2_o5yvi")]
-player = NodePath("../../NavigationRegion2D/player_items/player")
+[node name="hud" parent="." instance=ExtResource("2_o5yvi")]
 
 [node name="level_planets" type="Node2D" parent="."]
 

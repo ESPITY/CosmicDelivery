@@ -35,10 +35,10 @@ func rand_position(texture):
 	
 	var side = randi_range(0, 3)  # 0: izquierda | 1: derecha | 2: arriba | 3: abajo
 	match side:
-		0: return Vector2(-texture_size.x, randi_range(0, screen_size.y))
-		1: return Vector2(screen_size.x + texture_size.x, randi_range(0, screen_size.y))
-		2: return Vector2(randi_range(0, screen_size.x), -texture_size.y)
-		3: return Vector2(randi_range(0, screen_size.x), screen_size.y + texture_size.y)
+		0: return Vector2(-texture_size.x, randf_range(0, screen_size.y))
+		1: return Vector2(screen_size.x + texture_size.x, randf_range(0, screen_size.y))
+		2: return Vector2(randf_range(0, screen_size.x), -texture_size.y)
+		3: return Vector2(randf_range(0, screen_size.x), screen_size.y + texture_size.y)
 
 # Cuando pasa el tiempo de spawneo se crea un asteroide si no se ha alcanzado el maximo (tamaño aleatorio)	
 func _on_spawn_timer_timeout() -> void:

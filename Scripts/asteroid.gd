@@ -98,4 +98,5 @@ func explode():
 	hits += 1
 	if hits == asteroid["hits"]:
 		emit_signal("exploded", global_position, size)
+		Config.current_score += asteroid["points"]
 		queue_free()

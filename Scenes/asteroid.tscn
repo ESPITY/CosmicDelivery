@@ -22,7 +22,7 @@ texture = ExtResource("2_xliy4")
 [node name="asteroid_collision" type="CollisionShape2D" parent="."]
 
 [node name="timer_max_outside" type="Timer" parent="."]
-wait_time = 4.0
+wait_time = 12.0
 
 [node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="." groups=["asteroids"]]
 affect_navigation_mesh = true
